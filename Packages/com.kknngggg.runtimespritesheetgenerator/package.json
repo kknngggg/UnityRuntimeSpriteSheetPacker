@@ -1,0 +1,29 @@
+{
+	"name": "com.kknngggg.runtimespritesheetgenerator",
+	"displayName": "Runtime SpriteSheet Generator",
+	"version": "0.1.0",
+	"unity": "2021.3",
+	"description": "Pack SpritePackEntry lists into runtime sprite sheets and fetch Unity Sprite objects by name. Each entry sets name, pixels per unit, pivot, and mesh type. Supports multi-page atlases, padding, max page size, and power-of-two pages. API is shaped like SpriteAtlas and is usable in player builds",
+	"license": "MIT",
+	"keywords": [
+		"sprite",
+		"spritesheet",
+		"atlas",
+		"texture packing",
+		"runtime",
+		"webgl"
+	],
+	"dependencies": {
+		"com.unity.test-framework": "^1.6.0"
+	},
+	"author": {
+		"name": "Floro Raphaell Bautista",
+		"email": "flororaphaellbautista@gmail.com"
+	},
+	"samples": [
+    {
+      "displayName": "Demo",
+      "path": "Samples~/SpriteSheetExample"
+    }
+  ]
+}
