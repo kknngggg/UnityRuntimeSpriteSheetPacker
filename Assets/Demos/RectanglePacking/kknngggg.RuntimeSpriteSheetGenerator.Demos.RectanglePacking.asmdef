@@ -1,0 +1,16 @@
+{
+    "name": "RectanglePackingDemo",
+    "rootNamespace": "kknngggg.RuntimeSpriteSheetGenerator",
+    "references": [
+        "GUID:5cd717654391f49739001598c158eb77"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
