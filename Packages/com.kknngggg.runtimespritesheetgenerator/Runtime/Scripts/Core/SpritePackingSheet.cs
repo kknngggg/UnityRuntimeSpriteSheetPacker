@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace kknngggg.Unity.Sprites
 {
-    internal partial class SpritePackingSheet
+    internal sealed partial class SpritePackingSheet
     {
         private readonly string _texturePageName;
         private readonly List<SpritePackEntry> _entries = new List<SpritePackEntry>();

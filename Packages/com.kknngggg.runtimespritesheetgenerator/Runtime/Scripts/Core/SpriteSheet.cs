@@ -9,7 +9,7 @@ namespace kknngggg.Unity.Sprites
     ///     Runtime packed sprite atlas. API shaped like Unity SpriteAtlas: pack <see cref="SpritePackEntry" /> list, fetch sprites by name.
     ///     May span multiple pages when content exceeds <see cref="PackingSettings.MaxSize" />.
     /// </summary>
-    public partial class SpriteSheet : IDisposable
+    public sealed partial class SpriteSheet : IDisposable
     {
         private readonly List<Texture2D> _pages = new List<Texture2D>();
         private readonly Dictionary<string, SliceInfo> _slices = new Dictionary<string, SliceInfo>();

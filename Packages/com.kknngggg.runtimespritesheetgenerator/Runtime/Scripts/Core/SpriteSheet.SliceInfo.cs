@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace kknngggg.Unity.Sprites
 {
-    public partial class SpriteSheet
+    public sealed partial class SpriteSheet
     {
         public struct SliceInfo
         {

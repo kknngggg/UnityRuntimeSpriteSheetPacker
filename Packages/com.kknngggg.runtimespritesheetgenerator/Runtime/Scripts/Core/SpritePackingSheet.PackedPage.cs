@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace kknngggg.Unity.Sprites
 {
-    internal partial class SpritePackingSheet
+    internal sealed partial class SpritePackingSheet
     {
         private struct PackedPage
         {
