@@ -4,6 +4,7 @@ namespace kknngggg.Unity.Sprites
 {
     public sealed partial class SpriteSheet
     {
+        [Serializable]
         public struct PackingSettings
         {
             public int Padding;
