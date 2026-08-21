@@ -1,0 +1,58 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Demos/SpriteSheets/StyleSheets/SpritePackEntry.uss?fileID=7433441132597879392&amp;guid=09ce21c5e376346a28fdc1fb8bd85758&amp;type=3#SpritePackEntry"/>
+    <ui:VisualElement name="SpritePackEntryPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.SpritePackEntryViewDatasource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" style="height: 435px; background-color: rgb(46, 46, 51); flex-shrink: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+        <ui:VisualElement name="NameInput" class="sprite-pack-entry__input">
+            <ui:Label text="Name" name="NameInputLabel" class="sprite-pack-entry__input--label"/>
+            <ui:TextField name="NameInputField" class="sprite-pack-entry__input--field">
+                <Bindings>
+                    <ui:DataBinding property="value" data-source-path="Name" binding-mode="TwoWay"/>
+                </Bindings>
+            </ui:TextField>
+        </ui:VisualElement>
+        <ui:VisualElement name="PpuInput" class="sprite-pack-entry__input">
+            <ui:Label text="Pixels Per Unit" name="PpuInputLabel" class="sprite-pack-entry__input--label"/>
+            <ui:IntegerField keyboard-type="NumberPad" name="PpuInputField" class="sprite-pack-entry__input--field">
+                <Bindings>
+                    <ui:DataBinding property="value" data-source-path="PixelsPerUnit" binding-mode="TwoWay"/>
+                </Bindings>
+            </ui:IntegerField>
+        </ui:VisualElement>
+        <ui:VisualElement name="PivotInput" class="sprite-pack-entry__input">
+            <ui:Label text="Pivot" name="PivotInputLabel" class="sprite-pack-entry__input--label"/>
+            <ui:VisualElement name="PivotInputField" class="sprite-pack-entry__field" style="flex-shrink: 0; flex-direction: row;">
+                <ui:Label text="X" name="PivotXInputLabel" class="pivot-input-field__label"/>
+                <ui:FloatField keyboard-type="NumberPad" name="PivotXInputField" class="pivot-input-field__field">
+                    <Bindings>
+                        <ui:DataBinding property="value" data-source-path="Pivot.x" binding-mode="TwoWay"/>
+                    </Bindings>
+                </ui:FloatField>
+                <ui:Label text="Y" name="PivotYInputLabel" class="pivot-input-field__label"/>
+                <ui:FloatField keyboard-type="NumberPad" name="PivotYInputField" class="pivot-input-field__field">
+                    <Bindings>
+                        <ui:DataBinding property="value" data-source-path="Pivot.y" binding-mode="TwoWay"/>
+                    </Bindings>
+                </ui:FloatField>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="MeshTypeInput" class="sprite-pack-entry__input">
+            <ui:Label text="Mesh Type" name="MeshTypeInputLabel" class="sprite-pack-entry__input--label"/>
+            <ui:EnumField name="MeshTypeInputInputField" type="UnityEngine.SpriteMeshType, UnityEngine.CoreModule" class="sprite-pack-entry__input--field">
+                <Bindings>
+                    <ui:DataBinding property="value" data-source-path="MeshType" binding-mode="TwoWay"/>
+                </Bindings>
+            </ui:EnumField>
+        </ui:VisualElement>
+        <ui:VisualElement name="DiskPathInput" class="sprite-pack-entry__input">
+            <ui:Label text="Disk Path" name="DiskPathInputLabel" class="sprite-pack-entry__input--label"/>
+            <ui:TextField name="DiskPathInputField" class="sprite-pack-entry__input--field">
+                <Bindings>
+                    <ui:DataBinding property="value" data-source-path="DiskPath" binding-mode="TwoWay"/>
+                </Bindings>
+            </ui:TextField>
+        </ui:VisualElement>
+        <ui:VisualElement name="BottomButtons" class="sprite-pack-entry__bottm-btn" style="flex-shrink: 0; flex-grow: 1; flex-direction: row; justify-content: flex-end; margin-top: 10px;">
+            <ui:Button text="Remove" name="RemoveButton" class="sprite-pack-entry__bottm-button" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgb(84, 84, 84); color: rgb(209, 209, 209);"/>
+            <ui:Button text="Browse" name="BrowseButton" class="sprite-pack-entry__bottm-button" style="background-color: rgb(73, 101, 173); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

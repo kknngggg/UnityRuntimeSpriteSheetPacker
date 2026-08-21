@@ -1,0 +1,71 @@
+#PackedTexturePreviewPanel {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 65%;
+    width: 35%;
+    height: 100%;
+}
+
+.panel-title {
+    color: rgb(233, 233, 233);
+    -unity-font-style: bold;
+    font-size: 32px;
+    width: 100%;
+    height: 64px;
+    min-height: 48px;
+    max-height: 80px;
+    -unity-text-align: middle-left;
+    -unity-text-generator: advanced;
+    -unity-text-auto-size: best-fit 10px 34px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.PackedTexturePreviewPanel__paginaton-controls__btn {
+    width: auto;
+    aspect-ratio: 1;
+    height: 100%;
+    padding: 3px;
+    border-width: 0;
+    background-color: rgb(58, 89, 166);
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.packing-settings__input {
+    flex-direction: row;
+    flex-shrink: 0;
+    flex-grow: 0;
+    height: 64px;
+}
+
+.packing-settings__input--label {
+    width: 45%;
+    flex-shrink: 0;
+    color: rgb(233, 233, 233);
+    -unity-text-generator: advanced;
+    -unity-text-auto-size: best-fit 10px 32px;
+    -unity-text-align: middle-left;
+    white-space: normal;
+}
+
+.packing-settings__input--field {
+    flex-grow: 1;
+    min-width: 0;
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+.packing-settings__input--field > .unity-base-field__label {
+    display: none;
+}
+
+.packing-settings__input--field > .unity-base-field__input {
+    flex-grow: 1;
+    min-width: 0;
+}
