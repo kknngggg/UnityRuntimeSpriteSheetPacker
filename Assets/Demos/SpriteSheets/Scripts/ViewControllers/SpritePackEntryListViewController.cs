@@ -13,11 +13,14 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private readonly ListView _listView;
         private readonly IFileBrowser _fileBrowser;
         private readonly List<SpritePackEntryViewDatasource> _spritePackEntryViewDataSources = new();
+        private readonly MonoBehaviour _coroutineContext;
 
-        public SpritePackEntryListViewController(ListView listView, IFileBrowser fileBrowser)
+        public SpritePackEntryListViewController(ListView listView, IFileBrowser fileBrowser, MonoBehaviour coroutineContext)
         {
             this._listView = listView;
             this._fileBrowser = fileBrowser;
+            this._coroutineContext = coroutineContext;
+
             listView.focusable = true;
             listView.delegatesFocus = true;
             listView.selectionType = SelectionType.None;
@@ -50,8 +53,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
             IEnumerable<string> diskPaths = this._spritePackEntryViewDataSources
                                                 .Select(datasource => datasource.DiskPath);
-            BatchTextureLoader loader = new BatchTextureLoader(
-                diskPaths, this._spritePackEntryViewDataSources.Count);
+            BatchTextureLoader loader = new BatchTextureLoader(diskPaths, this._coroutineContext);
 
             yield return loader.LoadAllAsync();
 
@@ -152,14 +154,14 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
                 return;
             }
 
-            FileSystemInfo file = this._fileBrowser.SelectFile("jpg", "jpeg", "png", "webp", "heif");
+            SelectedFileInfo file = this._fileBrowser.SelectFile("jpg", "jpeg", "png", "webp", "heif");
 
-            if (file == null)
+            if (file == SelectedFileInfo.Null)
             {
                 return;
             }
 
-            string diskPath = file.FullName;
+            string diskPath = file.FullPath;
 
             SpritePackEntryViewDatasource dataSource = this._spritePackEntryViewDataSources[dataIndex];
             dataSource.DiskPath = diskPath;

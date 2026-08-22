@@ -62,8 +62,10 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._packingSettingsPanelView.dataSource = this._packingSettingsPanelViewDataSource;
             this._packedTexturePreviewView.dataSource = this._packedTexturePreviewViewDataSource;
 
-            this._spritePackEntryListViewController =
-                new SpritePackEntryListViewController(this._spritePackEntryListView, this._fileBrowser);
+            this._spritePackEntryListViewController = new SpritePackEntryListViewController(
+                this._spritePackEntryListView,
+                this._fileBrowser,
+                this);
         }
 
         private void OnDisable()

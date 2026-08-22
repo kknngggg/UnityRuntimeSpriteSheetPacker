@@ -1,12 +1,11 @@
 using System;
-using System.IO;
 
 namespace kknngggg.Unity.Sprites.Demos.SpriteSheets.IO
 {
     public interface IFileBrowser
     {
-        FileSystemInfo SelectFile(params string[] extensions);
+        SelectedFileInfo SelectFile(params string[] extensions);
 
-        void SaveFile(string path, ReadOnlySpan<byte> data);
+        void SaveFile(string fileName, ReadOnlySpan<byte> data, string fileExtension = "");
     }
 }
