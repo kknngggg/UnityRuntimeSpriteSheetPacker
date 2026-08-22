@@ -18,7 +18,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         {
             this._listView = listView;
             this._fileBrowser = fileBrowser;
-            listView.focusable = false;
+            listView.focusable = true;
+            listView.delegatesFocus = true;
             listView.selectionType = SelectionType.None;
             listView.itemsSource = this._spritePackEntryViewDataSources;
             listView.bindItem = BindItem;
@@ -27,7 +28,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             ScrollView scrollView = listView.Q<ScrollView>();
             if (scrollView != null)
             {
-                scrollView.focusable = false;
+                scrollView.focusable = true;
+                scrollView.delegatesFocus = true;
             }
         }
 
@@ -160,24 +162,21 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         private static void RegisterInputNavigationGuards(VisualElement item)
         {
-            item.Query<TextField>().ForEach(RegisterNavigationGuard);
-            item.Query<IntegerField>().ForEach(RegisterNavigationGuard);
-            item.Query<FloatField>().ForEach(RegisterNavigationGuard);
-            item.Query<EnumField>().ForEach(RegisterNavigationGuard);
+            item.Query(className: "sprite-pack-entry__input--field").ForEach(RegisterNavigationGuard);
+            item.Query(className: "pivot-input-field__field").ForEach(RegisterNavigationGuard);
         }
 
         private static void UnregisterInputNavigationGuards(VisualElement item)
         {
-            item.Query<TextField>().ForEach(UnregisterNavigationGuard);
-            item.Query<IntegerField>().ForEach(UnregisterNavigationGuard);
-            item.Query<FloatField>().ForEach(UnregisterNavigationGuard);
-            item.Query<EnumField>().ForEach(UnregisterNavigationGuard);
+            item.Query(className: "sprite-pack-entry__input--field").ForEach(UnregisterNavigationGuard);
+            item.Query(className: "pivot-input-field__field").ForEach(UnregisterNavigationGuard);
         }
 
         private static void RegisterNavigationGuard(VisualElement field)
         {
             field.RegisterCallback<KeyDownEvent>(StopListNavigation);
             field.RegisterCallback<NavigationMoveEvent>(StopListNavigation);
+            field.RegisterCallback<PointerDownEvent>(FocusFieldOnPointerDown, TrickleDown.TrickleDown);
             field.RegisterCallback<PointerDownEvent>(StopListNavigation);
         }
 
@@ -185,7 +184,30 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         {
             field.UnregisterCallback<KeyDownEvent>(StopListNavigation);
             field.UnregisterCallback<NavigationMoveEvent>(StopListNavigation);
+            field.UnregisterCallback<PointerDownEvent>(FocusFieldOnPointerDown, TrickleDown.TrickleDown);
             field.UnregisterCallback<PointerDownEvent>(StopListNavigation);
+        }
+
+        private static void FocusFieldOnPointerDown(PointerDownEvent evt)
+        {
+            if (evt.currentTarget is not VisualElement field)
+            {
+                return;
+            }
+
+            FocusTextInput(field);
+        }
+
+        private static void FocusTextInput(VisualElement field)
+        {
+            VisualElement input = field.Q(className: "unity-base-field__input");
+            if (input is { focusable: true, canGrabFocus: true })
+            {
+                input.Focus();
+                return;
+            }
+
+            field.Focus();
         }
 
         private static void StopListNavigation(EventBase evt)
