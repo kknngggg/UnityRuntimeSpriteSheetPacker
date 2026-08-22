@@ -8,7 +8,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
     public sealed class PackingSettingsPanelViewDataSource
     {
         [SerializeField, DontCreateProperty]
-        private SpriteSheet.PackingSettings _packingSettings;
+        private SpriteSheet.PackingSettings _packingSettings = SpriteSheet.PackingSettings.Default;
 
         public SpriteSheet.PackingSettings PackingSettings => this._packingSettings;
 
