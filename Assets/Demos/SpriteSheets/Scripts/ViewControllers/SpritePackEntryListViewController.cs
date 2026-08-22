@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using kknngggg.Unity.Sprites.Demos.SpriteSheets.IO;
 using UnityEngine;
@@ -10,6 +9,9 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 {
     public sealed class SpritePackEntryListViewController
     {
+        private const string ODD_ENTRY_CLASS_NAME = "sprite-pack-entry--odd";
+        private const string EVEN_ENTRY_CLASS_NAME = "sprite-pack-entry--even";
+
         private readonly ListView _listView;
         private readonly IFileBrowser _fileBrowser;
         private readonly List<SpritePackEntryViewDatasource> _spritePackEntryViewDataSources = new();
@@ -100,16 +102,29 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         private void BindItem(VisualElement spritePackEntry, int dataIndex)
         {
-            Button removeButton = spritePackEntry.Q<Button>("RemoveButton");
+            VisualElement entryRoot = spritePackEntry.Q("SpritePackEntryPanel");
+
+            if (dataIndex % 2 == 0)
+            {
+                entryRoot.RemoveFromClassList(ODD_ENTRY_CLASS_NAME);
+                entryRoot.AddToClassList(EVEN_ENTRY_CLASS_NAME);
+            }
+            else
+            {
+                entryRoot.RemoveFromClassList(EVEN_ENTRY_CLASS_NAME);
+                entryRoot.AddToClassList(ODD_ENTRY_CLASS_NAME);
+            }
+
+            Button removeButton = entryRoot.Q<Button>("RemoveButton");
             removeButton.userData = dataIndex;
             removeButton.clickable.clickedWithEventInfo += OnRemoveButtonClicked;
 
-            Button browseButton = spritePackEntry.Q<Button>("BrowseButton");
+            Button browseButton = entryRoot.Q<Button>("BrowseButton");
             browseButton.userData = dataIndex;
             browseButton.clickable.clickedWithEventInfo += OnBrowseButtonClicked;
 
-            RegisterInputNavigationGuards(spritePackEntry);
-            spritePackEntry.dataSource = this._spritePackEntryViewDataSources[dataIndex];
+            RegisterInputNavigationGuards(entryRoot);
+            entryRoot.dataSource = this._spritePackEntryViewDataSources[dataIndex];
         }
 
         private void UnbindItem(VisualElement spritePackEntry, int dataIndex)

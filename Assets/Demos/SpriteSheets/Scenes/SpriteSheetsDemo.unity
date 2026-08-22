@@ -189,6 +189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SpriteSheetClassDemo::kknngggg.Unity.Sprites.Demos.SpriteSheets.SpriteSheetsDemoUiController
   _uiDocument: {fileID: 67044583}
+  _spriteSheetDemoMainUiStyleSheet: {fileID: 7433441132597879392, guid: ef0147ed81398496a93fb38a12836d2b,
+    type: 3}
 --- !u!1 &441069136
 GameObject:
   m_ObjectHideFlags: 0

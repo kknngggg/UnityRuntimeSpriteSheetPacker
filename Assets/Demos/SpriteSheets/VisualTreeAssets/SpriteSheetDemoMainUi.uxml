@@ -4,11 +4,11 @@
         <ui:VisualElement name="PackingSheetPanel" style="flex-grow: 1; flex-shrink: 0;">
             <ui:VisualElement name="SheetEntriesHeader" class="panel-title" style="flex-direction: row; justify-content: space-between;">
                 <ui:Label text="Sheet Entries" name="SheetEntriesPanelTitle"/>
-                <ui:Button text="Add" name="AddEntryButton" style="background-color: rgb(76, 114, 173);"/>
+                <ui:Button text="Add" name="AddEntryButton" class="sheet-entries__add-button"/>
             </ui:VisualElement>
-            <ui:ListView selection-type="None" name="SpritePackEntryList" fixed-item-height="435" item-template="project://database/Assets/Demos/SpriteSheets/VisualTreeAssets/SpritePackEntry.uxml?fileID=9197481963319205126&amp;guid=51bcf2b406bb94cf58cb10e74e82f555&amp;type=3#SpritePackEntry" style="flex-shrink: 1; flex-grow: 1; min-height: auto; max-height: none;"/>
+            <ui:ListView selection-type="None" name="SpritePackEntryList" fixed-item-height="455" item-template="project://database/Assets/Demos/SpriteSheets/VisualTreeAssets/SpritePackEntry.uxml?fileID=9197481963319205126&amp;guid=51bcf2b406bb94cf58cb10e74e82f555&amp;type=3#SpritePackEntry" style="flex-shrink: 1; flex-grow: 1; min-height: auto; max-height: none;"/>
             <ui:Label text="Packing Settings" name="PackingSettingsPanelTitle" class="panel-title"/>
-            <ui:VisualElement name="PackingSettingsPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackingSettingsPanelViewDataSource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" style="flex-grow: 0; width: 100%; height: 20%; flex-shrink: 0;">
+            <ui:VisualElement name="PackingSettingsPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackingSettingsPanelViewDataSource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" style="flex-grow: 0; width: 100%; height: 17.5%; flex-shrink: 0;">
                 <ui:VisualElement name="PageNameInput" class="packing-settings__input" style="display: flex;">
                     <ui:Label text="Page Name" name="PageNameInputLabel" class="packing-settings__input--label"/>
                     <ui:TextField name="PageNameInputField" class="packing-settings__input--field">
@@ -35,32 +35,32 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="ForcePowerOfTwoInput" class="packing-settings__input">
                     <ui:Label text="Force Power of Two" name="ForcePowerOfTwoInputLabel" class="packing-settings__input--label"/>
-                    <ui:Toggle name="ForcePowerOfTwoToggle" class="packing-settings__input--field">
+                    <ui:Toggle name="ForcePowerOfTwoToggle" class="packing-settings__input--toggle">
                         <Bindings>
                             <ui:DataBinding property="value" data-source-path="ForcePowerOfTwo"/>
                         </Bindings>
                     </ui:Toggle>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:Button text="Pack" name="PackThisSheetButton" style="padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; margin-top: 30px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; background-color: rgb(26, 129, 69); color: rgb(233, 233, 233); -unity-font-style: bold; height: 80px; -unity-text-generator: advanced; -unity-text-auto-size: best-fit 10px 48px;"/>
+            <ui:Button text="Pack" name="PackThisSheetButton" class="pack-this-sheet-button"/>
         </ui:VisualElement>
         <ui:VisualElement name="VerticalDivider" style="width: 18px; height: 100%; background-color: rgb(43, 67, 108); flex-shrink: 0;"/>
         <ui:VisualElement name="PackedTexturePreviewPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackedTexturePreviewViewDataSource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" style="flex-shrink: 0; left: 0%;">
             <ui:Label text="Packed Texture Preview" name="PackedTexturePreviewPanel__title-label" enable-rich-text="false" class="panel-title" style="-unity-text-generator: advanced;"/>
-            <ui:VisualElement name="PackedTexturePreviewPanel__paginaton-controls" style="width: auto; height: 64px; flex-direction: row; padding-top: 5px; padding-bottom: 5px; padding-right: 5px; padding-left: 5px; align-content: center; overflow: hidden; flex-basis: auto;">
-                <ui:Button name="PackedTexturePreviewPanel__paginaton-controls__previous-button" enabled="false" class="PackedTexturePreviewPanel__paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="paginaton-controls" style="width: auto; height: 64px; flex-direction: row; padding-top: 5px; padding-bottom: 5px; padding-right: 5px; padding-left: 5px; align-content: center; overflow: hidden; flex-basis: auto;">
+                <ui:Button name="paginaton-controls__previous-button" enabled="false" class="paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
                     <ui:Image name="Image" source="project://database/Assets/Demos/SpriteSheets/Sprites/btn_arrow_next.png?fileID=-6481690848929482010&amp;guid=7a43eae7ab92349adb32eb89383538dd&amp;type=3#btn_arrow_next_0" style="rotate: 180deg;"/>
                     <Bindings>
                         <ui:DataBinding property="enabledSelf" data-source-path="PreviousButtonEnabled" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:Button>
-                <ui:DropdownField name="PackedTexturePreviewPanel__paginaton-controls__page-dropdown" style="height: 100%; width: auto; flex-grow: 1; align-self: center; align-content: center;">
+                <ui:DropdownField name="paginaton-controls__page-dropdown" class="paginaton-controls__dropdown" style="height: 100%; width: auto; flex-grow: 1; align-self: center; align-content: center;">
                     <Bindings>
                         <ui:DataBinding property="index" data-source-path="SelectedTexturePageIndex"/>
                         <ui:DataBinding property="choices" data-source-path="PageDropdownChoices" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:DropdownField>
-                <ui:Button name="PackedTexturePreviewPanel__paginaton-controls__next-button" enabled="false" class="PackedTexturePreviewPanel__paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                <ui:Button name="paginaton-controls__next-button" enabled="false" class="paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
                     <ui:Image source="project://database/Assets/Demos/SpriteSheets/Sprites/btn_arrow_next.png?fileID=-6481690848929482010&amp;guid=7a43eae7ab92349adb32eb89383538dd&amp;type=3#btn_arrow_next_0" tint-color="rgb(255, 255, 255)"/>
                     <Bindings>
                         <ui:DataBinding property="enabledSelf" data-source-path="NextButtonEnabled" binding-mode="ToTarget"/>

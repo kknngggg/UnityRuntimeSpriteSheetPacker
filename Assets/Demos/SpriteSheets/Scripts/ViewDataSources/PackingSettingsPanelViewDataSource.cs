@@ -1,6 +1,7 @@
 using System;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 {
@@ -34,5 +35,9 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             get => this._packingSettings.ForcePowerOfTwo;
             set => this._packingSettings.ForcePowerOfTwo = value;
         }
+
+        [CreateProperty]
+        public StyleColor ForcePowerOfTwoToggleColor => this.ForcePowerOfTwo ?
+            new Color(0.398f, 0.801f, 0.450f) : Color.gray2;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using kknngggg.Unity.Sprites.Demos.SpriteSheets.IO;
+using Unity.Properties;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,11 +11,16 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
     [DisallowMultipleComponent]
     public sealed class SpriteSheetsDemoUiController : MonoBehaviour
     {
+        private const string CUSTOM_DROPDOWN_POPUP_CLASS_NAME = "paginaton-controls__dropdown-items-popup";
+        private const string UNITY_DROPDOWN_POPUP_CONTAINER_CLASS_NAME = "unity-base-dropdown__container-outer";
+
         [SerializeField] private UIDocument _uiDocument;
+        [SerializeField] private StyleSheet _spriteSheetDemoMainUiStyleSheet;
 
         private ListView _spritePackEntryListView;
         private VisualElement _packingSettingsPanelView;
         private VisualElement _packedTexturePreviewView;
+        private DropdownField _texturePageDropdown;
 
         private Button _addEntryButton;
         private Button _previousPageButton;
@@ -49,6 +55,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         private void OnEnable()
         {
+            this._texturePageDropdown.RegisterCallback<PointerDownEvent>(OnTexturePageDropdownClicked);
             this._addEntryButton.clicked += OnAddEntryButtonClicked;
             this._previousPageButton.clicked += OnPreviousPageButtonClicked;
             this._nextPageButton.clicked += OnNextPageButtonClicked;
@@ -57,6 +64,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         private void Start()
         {
+            SetupForcePowerOfTwoToggle();
+
             this._fileBrowser = new UnityEditorFileBrowser();
 
             this._packingSettingsPanelView.dataSource = this._packingSettingsPanelViewDataSource;
@@ -70,6 +79,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         private void OnDisable()
         {
+            this._texturePageDropdown.UnregisterCallback<PointerDownEvent>(OnTexturePageDropdownClicked);
             this._addEntryButton.clicked -= OnAddEntryButtonClicked;
             this._previousPageButton.clicked -= OnPreviousPageButtonClicked;
             this._nextPageButton.clicked -= OnNextPageButtonClicked;
@@ -83,11 +93,48 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._spritePackEntryListView = root.Q<ListView>("SpritePackEntryList");
             this._packingSettingsPanelView = root.Q<VisualElement>("PackingSettingsPanel");
             this._packedTexturePreviewView = root.Q<VisualElement>("PackedTexturePreviewPanel");
+            this._texturePageDropdown = root.Q<DropdownField>("paginaton-controls__page-dropdown");
 
             this._addEntryButton = root.Q<Button>("AddEntryButton");
-            this._previousPageButton = root.Q<Button>("PackedTexturePreviewPanel__paginaton-controls__previous-button");
-            this._nextPageButton = root.Q<Button>("PackedTexturePreviewPanel__paginaton-controls__next-button");
+            this._previousPageButton = root.Q<Button>("paginaton-controls__previous-button");
+            this._nextPageButton = root.Q<Button>("paginaton-controls__next-button");
             this._packThisSheetButton = root.Q<Button>("PackThisSheetButton");
+        }
+
+        private void SetupForcePowerOfTwoToggle()
+        {
+            var checkmark = this._packingSettingsPanelView.Q<VisualElement>("unity-checkmark");
+            checkmark.style.backgroundImage = new StyleBackground();
+            checkmark.SetBinding(new BindingId("style.backgroundColor"),
+                                 new DataBinding {
+                                     dataSourcePath = new PropertyPath("ForcePowerOfTwoToggleColor"),
+                                     bindingMode = BindingMode.ToTarget,
+                                 });
+        }
+
+        private void OnTexturePageDropdownClicked(PointerDownEvent evt)
+        {
+            // The dropdown items popup is generated later in the event loop.
+            // Schedule a callback to execute right after it's added to the visual tree.
+            this._texturePageDropdown.schedule.Execute(() =>
+            {
+                var visualTreeRoot = this._texturePageDropdown.panel.visualTree;
+
+                // The popup is attached directly to the visual tree root, bypassing our local hierarchy.
+                var popup = visualTreeRoot.Q<VisualElement>(UNITY_DROPDOWN_POPUP_CONTAINER_CLASS_NAME);
+
+                if (popup == null)
+                {
+                    return;
+                }
+
+                // Unity sometimes pools popups. Remove first just in case.
+                popup.panel.visualTree.styleSheets.Remove(this._spriteSheetDemoMainUiStyleSheet);
+                popup.RemoveFromClassList(CUSTOM_DROPDOWN_POPUP_CLASS_NAME);
+
+                popup.panel.visualTree.styleSheets.Add(this._spriteSheetDemoMainUiStyleSheet);
+                popup.AddToClassList(CUSTOM_DROPDOWN_POPUP_CLASS_NAME);
+            }).StartingIn(0);
         }
 
         private void OnAddEntryButtonClicked()

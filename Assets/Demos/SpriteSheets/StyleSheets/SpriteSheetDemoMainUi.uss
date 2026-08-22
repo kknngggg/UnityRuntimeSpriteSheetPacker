@@ -24,24 +24,11 @@
     margin-left: 5px;
 }
 
-.PackedTexturePreviewPanel__paginaton-controls__btn {
-    width: auto;
-    aspect-ratio: 1;
-    height: 100%;
-    padding: 3px;
-    border-width: 0;
-    background-color: rgb(58, 89, 166);
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-}
-
 .packing-settings__input {
     flex-direction: row;
     flex-shrink: 0;
     flex-grow: 0;
-    height: 64px;
+    height: 48px;
 }
 
 .packing-settings__input--label {
@@ -59,6 +46,7 @@
     min-width: 0;
     font-size: 24px;
     white-space: nowrap;
+    color: rgb(233, 233, 233);
 }
 
 .packing-settings__input--field > .unity-base-field__label {
@@ -68,4 +56,140 @@
 .packing-settings__input--field > .unity-base-field__input {
     flex-grow: 1;
     min-width: 0;
+    background-color: rgb(41, 40, 45);
+}
+
+.packing-settings__input--toggle {
+    margin-left: 4px;
+}
+
+.packing-settings__input--toggle,
+.packing-settings__input--toggle > .unity-toggle__input {
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.packing-settings__input--toggle > .unity-toggle__input {
+    background-color: rgb(41, 40, 45);
+}
+
+.packing-settings__input--toggle .unity-toggle__checkmark {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+}
+
+.sheet-entries__add-button {
+    background-color: rgb(76, 114, 173);
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.sheet-entries__add-button:hover:enabled {
+    background-color: rgb(96, 138, 200);
+}
+
+.sheet-entries__add-button:active:enabled {
+    background-color: rgb(56, 90, 145);
+    scale: 0.97 0.97;
+}
+
+.pack-this-sheet-button {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    margin-top: 30px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    background-color: rgb(26, 129, 69);
+    color: rgb(233, 233, 233);
+    -unity-font-style: bold;
+    height: 80px;
+    -unity-text-generator: advanced;
+    -unity-text-auto-size: best-fit 10px 48px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.pack-this-sheet-button:hover:enabled {
+    background-color: rgb(36, 155, 85);
+}
+
+.pack-this-sheet-button:active:enabled {
+    background-color: rgb(18, 100, 52);
+    scale: 0.97 0.97;
+}
+
+.paginaton-controls__btn {
+    width: auto;
+    aspect-ratio: 1;
+    height: 100%;
+    padding: 3px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgb(58, 89, 166);
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.paginaton-controls__btn:hover:enabled {
+    background-color: rgb(78, 112, 195);
+}
+
+.paginaton-controls__btn:active:enabled {
+    background-color: rgb(42, 68, 135);
+    scale: 0.97 0.97;
+}
+
+.paginaton-controls__btn:disabled {
+    opacity: 0.4;
+    scale: 1 1;
+}
+
+.paginaton-controls__dropdown {
+    color: rgb(233, 233, 233);
+    font-size: 28px;
+}
+
+.paginaton-controls__dropdown > .unity-base-field__input {
+    margin: 0;
+    background-color: rgb(41, 40, 45);
+}
+
+.paginaton-controls__dropdown:hover:enabled > .unity-base-field__input {
+    background-color: rgb(70, 70, 78);
+}
+
+.paginaton-controls__dropdown:active:enabled > .unity-base-field__input {
+    background-color: rgb(52, 52, 60);
+}
+
+.sheet-entries__add-button:focus,
+.pack-this-sheet-button:focus,
+.paginaton-controls__btn:focus,
+.paginaton-controls__dropdown:focus,
+.paginaton-controls__dropdown:focus > .unity-base-field__input,
+.paginaton-controls__dropdown > .unity-base-field__input:focus {
+    border-color: rgb(125, 195, 255);
+    border-width: 2px;
+}
+
+.sheet-entries__add-button,
+.pack-this-sheet-button,
+.paginaton-controls__btn,
+.paginaton-controls__dropdown,
+.packing-settings__input--field > .unity-base-field__input {
+    transition-duration: 0.1s;
+}
+
+.packing-settings__input--field:active > .unity-base-field__input,
+.packing-settings__input--field:focus > .unity-base-field__input,
+.packing-settings__input--field > .unity-base-field__input:focus {
+    border-left-width: 10px;
+    border-left-color: rgb(101, 204, 114)
 }
