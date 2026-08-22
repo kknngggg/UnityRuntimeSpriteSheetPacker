@@ -43,6 +43,11 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         public IEnumerator LoadAllTexturesAsync()
         {
+            if (this._spritePackEntryViewDataSources is not { Count: > 0 })
+            {
+                yield break;
+            }
+
             IEnumerable<string> diskPaths = this._spritePackEntryViewDataSources
                                                 .Select(datasource => datasource.DiskPath);
             BatchTextureLoader loader = new BatchTextureLoader(

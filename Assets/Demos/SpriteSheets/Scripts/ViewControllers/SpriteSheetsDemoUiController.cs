@@ -116,6 +116,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
             if (entries is not { Count: > 0 })
             {
+                this._packingCoroutine = null;
                 yield break;
             }
 
