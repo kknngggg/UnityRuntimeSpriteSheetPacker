@@ -56,8 +56,8 @@
                 </ui:Button>
                 <ui:DropdownField name="paginaton-controls__page-dropdown" class="paginaton-controls__dropdown" style="height: 100%; width: auto; flex-grow: 1; align-self: center; align-content: center;">
                     <Bindings>
-                        <ui:DataBinding property="index" data-source-path="SelectedTexturePageIndex"/>
                         <ui:DataBinding property="choices" data-source-path="PageDropdownChoices" binding-mode="ToTarget"/>
+                        <ui:DataBinding property="index" data-source-path="SelectedTexturePageIndex"/>
                     </Bindings>
                 </ui:DropdownField>
                 <ui:Button name="paginaton-controls__next-button" enabled="false" class="paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">

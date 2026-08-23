@@ -8,13 +8,14 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
     [Serializable]
     public sealed class PackedTexturePreviewViewDataSource : VersionedViewDataSource
     {
-        [SerializeField, DontCreateProperty] private int _selectedTexturePageIndex;
+        [SerializeField, DontCreateProperty] private int _selectedTexturePageIndex = -1;
 
         private static readonly List<string> _empty = new();
 
         private SpriteSheet _spriteSheet;
 
-        [CreateProperty] public int SelectedTexturePageIndex {
+        [CreateProperty]
+        public int SelectedTexturePageIndex {
             get => this._selectedTexturePageIndex;
             set => SetSelectedTexturePageIndex(value);
         }
@@ -32,17 +33,14 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         public void UpdatePreview(SpriteSheet spriteSheet)
         {
             this._spriteSheet?.Dispose();
-
             this._spriteSheet = spriteSheet;
-            this._selectedTexturePageIndex = 0;
 
-            Notify(nameof(this.SelectedTexturePageIndex));
-            Notify(nameof(this.SelectedTexturePage));
-            Notify(nameof(this.SelectedTexturePageInfo));
             Notify(nameof(this.PageDropdownChoices));
-            Notify(nameof(this.PreviousButtonEnabled));
-            Notify(nameof(this.NextButtonEnabled));
-            Publish();
+
+            // set to -1 first so the SelectedTexturePageIndex setter
+            // actually changes the value -1 → 0 and triggers Notify
+            this._selectedTexturePageIndex = -1;
+            this.SelectedTexturePageIndex = 0;
         }
 
         private void SetSelectedTexturePageIndex(int index)
