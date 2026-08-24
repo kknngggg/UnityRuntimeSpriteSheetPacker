@@ -1,12 +1,12 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Demos/SpriteSheets/StyleSheets/SpriteSheetDemoMainUi.uss?fileID=7433441132597879392&amp;guid=ef0147ed81398496a93fb38a12836d2b&amp;type=3#SpriteSheetDemoMainUi"/>
     <ui:VisualElement name="SpriteSheetDemoPanel" style="flex-grow: 1; flex-direction: row; width: 100%; height: 100%;">
-        <ui:VisualElement name="PackingSheetPanel" style="flex-grow: 1; flex-shrink: 0;">
+        <ui:VisualElement name="PackingSheetPanel" style="flex-grow: 1; flex-shrink: 1; min-width: 0;">
             <ui:VisualElement name="SheetEntriesHeader" class="panel-title" style="flex-direction: row; justify-content: space-between;">
                 <ui:Label text="Sheet Entries" name="SheetEntriesPanelTitle"/>
                 <ui:Button text="Add" name="AddEntryButton" class="sheet-entries__add-button"/>
             </ui:VisualElement>
-            <ui:ListView selection-type="None" name="SpritePackEntryList" fixed-item-height="455" item-template="project://database/Assets/Demos/SpriteSheets/VisualTreeAssets/SpritePackEntry.uxml?fileID=9197481963319205126&amp;guid=51bcf2b406bb94cf58cb10e74e82f555&amp;type=3#SpritePackEntry" style="flex-shrink: 1; flex-grow: 1; min-height: auto; max-height: none;"/>
+            <ui:ListView selection-type="None" name="SpritePackEntryList" fixed-item-height="455" item-template="project://database/Assets/Demos/SpriteSheets/VisualTreeAssets/SpritePackEntry.uxml?fileID=9197481963319205126&amp;guid=51bcf2b406bb94cf58cb10e74e82f555&amp;type=3#SpritePackEntry" style="flex-shrink: 1; flex-grow: 1; min-width: 0; min-height: auto; max-height: none;"/>
             <ui:Label text="Packing Settings" name="PackingSettingsPanelTitle" class="panel-title"/>
             <ui:VisualElement name="PackingSettingsPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackingSettingsPanelViewDataSource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" style="flex-grow: 0; width: 100%; height: 17.5%; flex-shrink: 0;">
                 <ui:VisualElement name="PageNameInput" class="packing-settings__input" style="display: flex;">
@@ -47,7 +47,7 @@
         <ui:VisualElement name="VerticalDivider" style="width: 18px; height: 100%; background-color: rgb(43, 67, 108); flex-shrink: 0;"/>
         <ui:VisualElement name="PackedTexturePreviewPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackedTexturePreviewViewDataSource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" style="flex-shrink: 0; left: 0%;">
             <ui:Label text="Packed Texture Preview" name="PackedTexturePreviewPanel__title-label" enable-rich-text="false" class="panel-title" style="-unity-text-generator: advanced;"/>
-            <ui:VisualElement name="paginaton-controls" style="width: auto; height: 64px; flex-direction: row; padding-top: 5px; padding-bottom: 5px; padding-right: 5px; padding-left: 5px; align-content: center; overflow: hidden; flex-basis: auto;">
+            <ui:VisualElement name="paginaton-controls" class="paginaton-controls" style="width: auto; height: 64px; flex-direction: row; padding-top: 5px; padding-bottom: 5px; padding-right: 5px; padding-left: 5px; align-content: center; flex-basis: auto; flex-shrink: 0;">
                 <ui:Button name="paginaton-controls__previous-button" enabled="false" class="paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
                     <ui:Image name="Image" source="project://database/Assets/Demos/SpriteSheets/Sprites/btn_arrow_next.png?fileID=-6481690848929482010&amp;guid=7a43eae7ab92349adb32eb89383538dd&amp;type=3#btn_arrow_next_0" style="rotate: 180deg;"/>
                     <Bindings>
@@ -67,7 +67,7 @@
                     </Bindings>
                 </ui:Button>
             </ui:VisualElement>
-            <ui:Image name="PackedTexturePreviewPanel__preview-image" style="flex-shrink: 0; flex-grow: 1; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+            <ui:Image name="PackedTexturePreviewPanel__preview-image" style="flex-shrink: 1; flex-grow: 1; min-height: 0; min-width: 0; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
                 <Bindings>
                     <ui:DataBinding property="source" data-source-path="SelectedTexturePage" binding-mode="ToTarget"/>
                 </Bindings>

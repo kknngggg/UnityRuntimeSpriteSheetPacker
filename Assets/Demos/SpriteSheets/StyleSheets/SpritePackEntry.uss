@@ -1,5 +1,6 @@
 .sprite-pack-entry {
     background-color: rgb(46, 46, 51);
+    min-width: 0;
 }
 
 .sprite-pack-entry__input {
@@ -54,6 +55,7 @@
     background-color: rgb(41, 40, 45);
     flex-grow: 1;
     min-width: 0;
+    overflow: hidden;
 }
 
 .pivot-input-field__field > .unity-base-field__label {
