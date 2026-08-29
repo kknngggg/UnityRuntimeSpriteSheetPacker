@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using kknngggg.Unity.Sprites.Demos.SpriteSheets.IO;
-using Unity.Properties;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -105,11 +104,6 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         {
             var checkmark = this._packingSettingsPanelView.Q<VisualElement>("unity-checkmark");
             checkmark.style.backgroundImage = new StyleBackground();
-            checkmark.SetBinding(new BindingId("style.backgroundColor"),
-                                 new DataBinding {
-                                     dataSourcePath = new PropertyPath("ForcePowerOfTwoToggleColor"),
-                                     bindingMode = BindingMode.ToTarget,
-                                 });
         }
 
         private void OnTexturePageDropdownClicked(PointerDownEvent evt)

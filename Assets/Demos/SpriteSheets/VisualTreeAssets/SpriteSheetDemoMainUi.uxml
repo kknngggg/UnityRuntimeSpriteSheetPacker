@@ -50,7 +50,7 @@
             </ui:VisualElement>
             <ui:Button text="Pack" name="PackThisSheetButton" class="pack-this-sheet-button"/>
         </ui:VisualElement>
-        <ui:VisualElement name="VerticalDivider" style="width: 18px; height: 100%; background-color: rgb(43, 67, 108); flex-shrink: 0;"/>
+        <ui:VisualElement name="VerticalDivider" style="width: 18px; height: 100%; flex-shrink: 0;"/>
         <ui:VisualElement name="PackedTexturePreviewPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackedTexturePreviewViewDataSource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" style="flex-shrink: 0; left: 0%;">
             <ui:Label text="Packed Texture Preview" name="PackedTexturePreviewPanel__title-label" enable-rich-text="false" class="panel-title" style="-unity-text-generator: advanced;"/>
             <ui:VisualElement name="paginaton-controls" class="paginaton-controls" style="width: auto; height: 64px; flex-direction: row; padding-top: 5px; padding-bottom: 5px; padding-right: 5px; padding-left: 5px; align-content: center; flex-basis: auto; flex-shrink: 0;">
@@ -78,7 +78,7 @@
                     <ui:DataBinding property="source" data-source-path="SelectedTexturePage" binding-mode="ToTarget"/>
                 </Bindings>
             </ui:Image>
-            <ui:Label name="PackedTexturePreviewPanel__page-info" style="color: rgb(233, 233, 233); -unity-text-generator: advanced; -unity-text-auto-size: best-fit 10px 28px; -unity-text-align: middle-center; white-space: normal; text-shadow: 1px 1px 0 rgba(0, 0, 0, 0); margin-left: 5px; margin-right: 5px; margin-bottom: 5px; margin-top: 10px; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px;">
+            <ui:Label name="PackedTexturePreviewPanel__page-info" style="-unity-text-generator: advanced; -unity-text-auto-size: best-fit 10px 28px; -unity-text-align: middle-center; white-space: normal; text-shadow: 1px 1px 0 rgba(0, 0, 0, 0); margin-left: 5px; margin-right: 5px; margin-bottom: 5px; margin-top: 10px; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px;">
                 <Bindings>
                     <ui:DataBinding property="text" data-source-path="SelectedTexturePageInfo" binding-mode="ToTarget"/>
                 </Bindings>

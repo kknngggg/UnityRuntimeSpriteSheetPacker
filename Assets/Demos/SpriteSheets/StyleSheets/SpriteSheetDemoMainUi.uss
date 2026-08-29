@@ -1,3 +1,18 @@
+@import url("./SpriteSheetDemoTheme.uss");
+
+#SpriteSheetDemoPanel,
+#SpritePackEntryList {
+    background-color: var(--color-bg);
+}
+
+#VerticalDivider {
+    background-color: var(--color-secondary-muted);
+}
+
+#PackedTexturePreviewPanel__page-info {
+    color: var(--color-text);
+}
+
 #PackedTexturePreviewPanel {
     top: 0;
     right: 0;
@@ -5,10 +20,11 @@
     left: 65%;
     width: 35%;
     height: 100%;
+    background-color: var(--color-bg);
 }
 
 .panel-title {
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
     -unity-font-style: bold;
     font-size: 32px;
     width: 100%;
@@ -34,7 +50,7 @@
 .packing-settings__input--label {
     width: 45%;
     flex-shrink: 0;
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
     -unity-text-generator: advanced;
     -unity-text-auto-size: best-fit 10px 32px;
     -unity-text-align: middle-left;
@@ -46,7 +62,7 @@
     min-width: 0;
     font-size: 24px;
     white-space: nowrap;
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
 }
 
 .packing-settings__input--field > .unity-base-field__label {
@@ -56,7 +72,7 @@
 .packing-settings__input--field > .unity-base-field__input {
     flex-grow: 1;
     min-width: 0;
-    background-color: rgb(41, 40, 45);
+    background-color: var(--color-surface-inset);
 }
 
 .packing-settings__input--toggle {
@@ -70,7 +86,7 @@
 }
 
 .packing-settings__input--toggle > .unity-toggle__input {
-    background-color: rgb(41, 40, 45);
+    background-color: var(--color-surface-inset);
 }
 
 .packing-settings__input--toggle .unity-toggle__checkmark {
@@ -78,20 +94,26 @@
     left: 50%;
     top: 50%;
     translate: -50% -50%;
+    background-image: none;
+    background-color: var(--color-toggle-off);
+}
+
+.packing-settings__input--toggle:checked .unity-toggle__checkmark {
+    background-color: var(--color-accent-bright);
 }
 
 .sheet-entries__add-button {
-    background-color: rgb(76, 114, 173);
+    background-color: var(--color-secondary);
     border-width: 2px;
-    border-color: rgba(0, 0, 0, 0);
+    border-color: var(--color-transparent);
 }
 
 .sheet-entries__add-button:hover:enabled {
-    background-color: rgb(96, 138, 200);
+    background-color: var(--color-secondary-hover);
 }
 
 .sheet-entries__add-button:active:enabled {
-    background-color: rgb(56, 90, 145);
+    background-color: var(--color-secondary-active);
     scale: 0.97 0.97;
 }
 
@@ -104,22 +126,22 @@
     margin-right: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
-    background-color: rgb(26, 129, 69);
-    color: rgb(233, 233, 233);
+    background-color: var(--color-accent);
+    color: var(--color-text);
     -unity-font-style: bold;
     height: 80px;
     -unity-text-generator: advanced;
     -unity-text-auto-size: best-fit 10px 48px;
     border-width: 2px;
-    border-color: rgba(0, 0, 0, 0);
+    border-color: var(--color-transparent);
 }
 
 .pack-this-sheet-button:hover:enabled {
-    background-color: rgb(36, 155, 85);
+    background-color: var(--color-accent-hover);
 }
 
 .pack-this-sheet-button:active:enabled {
-    background-color: rgb(18, 100, 52);
+    background-color: var(--color-accent-active);
     scale: 0.97 0.97;
 }
 
@@ -136,8 +158,8 @@
     flex-shrink: 0;
     padding: 3px;
     border-width: 2px;
-    border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(58, 89, 166);
+    border-color: var(--color-transparent);
+    background-color: var(--color-secondary);
     padding-top: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
@@ -145,11 +167,11 @@
 }
 
 .paginaton-controls__btn:hover:enabled {
-    background-color: rgb(78, 112, 195);
+    background-color: var(--color-secondary-hover);
 }
 
 .paginaton-controls__btn:active:enabled {
-    background-color: rgb(42, 68, 135);
+    background-color: var(--color-secondary-active);
     scale: 0.97 0.97;
 }
 
@@ -159,7 +181,7 @@
 }
 
 .paginaton-controls__dropdown {
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
     font-size: 28px;
     flex-grow: 1;
     flex-shrink: 1;
@@ -170,15 +192,15 @@
     margin: 0;
     min-width: 0;
     overflow: hidden;
-    background-color: rgb(41, 40, 45);
+    background-color: var(--color-surface-inset);
 }
 
 .paginaton-controls__dropdown:hover:enabled > .unity-base-field__input {
-    background-color: rgb(70, 70, 78);
+    background-color: var(--color-surface-hover);
 }
 
 .paginaton-controls__dropdown:active:enabled > .unity-base-field__input {
-    background-color: rgb(52, 52, 60);
+    background-color: var(--color-surface-active);
 }
 
 .sheet-entries__add-button:focus,
@@ -187,7 +209,7 @@
 .paginaton-controls__dropdown:focus,
 .paginaton-controls__dropdown:focus > .unity-base-field__input,
 .paginaton-controls__dropdown > .unity-base-field__input:focus {
-    border-color: rgb(125, 195, 255);
+    border-color: var(--color-secondary-focus);
     border-width: 2px;
 }
 
@@ -203,5 +225,5 @@
 .packing-settings__input--field:focus > .unity-base-field__input,
 .packing-settings__input--field > .unity-base-field__input:focus {
     border-left-width: 10px;
-    border-left-color: rgb(101, 204, 114)
+    border-left-color: var(--color-accent-bright);
 }

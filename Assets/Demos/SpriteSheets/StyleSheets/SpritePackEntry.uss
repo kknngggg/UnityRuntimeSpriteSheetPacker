@@ -1,5 +1,7 @@
+@import url("./SpriteSheetDemoTheme.uss");
+
 .sprite-pack-entry {
-    background-color: rgb(46, 46, 51);
+    background-color: var(--color-surface);
     min-width: 0;
 }
 
@@ -13,7 +15,7 @@
 .sprite-pack-entry__input--label {
     width: 45%;
     flex-shrink: 0;
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
     -unity-text-generator: advanced;
     -unity-text-auto-size: best-fit 10px 32px;
     -unity-text-align: middle-left;
@@ -25,12 +27,12 @@
     min-width: 0;
     font-size: 24px;
     white-space: nowrap;
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
     max-width: 50%;
 }
 
 .pivot-input-field__label {
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
     white-space: nowrap;
     -unity-text-align: middle-left;
     -unity-text-generator: advanced;
@@ -45,7 +47,7 @@
     width: auto;
     min-width: 80px;
     max-width: 302px;
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
 }
 
 .sprite-pack-entry__input--field > .unity-base-field__label {
@@ -54,7 +56,7 @@
 
 .sprite-pack-entry__input--field > .unity-base-field__input,
 .sprite-pack-entry__input--field > .unity-enum-field__input {
-    background-color: rgb(41, 40, 45);
+    background-color: var(--color-surface-inset);
     flex-grow: 1;
     min-width: 0;
     overflow: hidden;
@@ -66,7 +68,7 @@
 }
 
 .pivot-input-field__field .unity-base-field__input {
-    background-color: rgb(41, 40, 45);
+    background-color: var(--color-surface-inset);
     flex-grow: 1;
     min-width: 0;
     margin: 0;
@@ -81,7 +83,7 @@
     margin-right: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
-    color: rgb(233, 233, 233);
+    color: var(--color-text);
     -unity-font-style: bold;
     -unity-text-generator: advanced;
     -unity-text-auto-size: best-fit 10px 48px;
@@ -89,38 +91,38 @@
     flex-grow: 1;
     max-width: 280px;
     border-width: 2px;
-    border-color: rgba(0, 0, 0, 0);
+    border-color: var(--color-transparent);
 }
 
 .sprite-pack-entry__bottm-button:focus {
-    border-color: rgb(125, 195, 255);
+    border-color: var(--color-secondary-focus);
     border-width: 2px;
 }
 
 .sprite-pack-entry__bottm-button--remove {
-    background-color: rgb(84, 84, 84);
-    color: rgb(209, 209, 209);
+    background-color: var(--color-neutral);
+    color: var(--color-text-muted);
 }
 
 .sprite-pack-entry__bottm-button--remove:hover:enabled {
-    background-color: rgb(110, 110, 110);
+    background-color: var(--color-neutral-hover);
 }
 
 .sprite-pack-entry__bottm-button--remove:active:enabled {
-    background-color: rgb(60, 60, 60);
+    background-color: var(--color-neutral-active);
     scale: 0.97 0.97;
 }
 
 .sprite-pack-entry__bottm-button--browse {
-    background-color: rgb(73, 101, 173);
+    background-color: var(--color-secondary);
 }
 
 .sprite-pack-entry__bottm-button--browse:hover:enabled {
-    background-color: rgb(93, 125, 200);
+    background-color: var(--color-secondary-hover);
 }
 
 .sprite-pack-entry__bottm-button--browse:active:enabled {
-    background-color: rgb(55, 80, 145);
+    background-color: var(--color-secondary-active);
     scale: 0.97 0.97;
 }
 
@@ -141,5 +143,5 @@
 .pivot-input-field__field:focus > .unity-base-field__input,
 .pivot-input-field__field:focus > .unity-base-field__input {
     border-left-width: 10px;
-    border-left-color: rgb(101, 204, 114);
+    border-left-color: var(--color-accent-bright);
 }

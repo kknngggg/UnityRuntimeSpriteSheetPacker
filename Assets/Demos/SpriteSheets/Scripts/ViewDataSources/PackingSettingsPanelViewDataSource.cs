@@ -50,10 +50,6 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         }
 
         [CreateProperty]
-        public StyleColor ForcePowerOfTwoToggleColor => this.ForcePowerOfTwo ?
-            new Color(0.398f, 0.801f, 0.450f) : Color.gray2;
-
-        [CreateProperty]
         public DisplayStyle EffectiveMaxSizeDisplay => this.ForcePowerOfTwo ? DisplayStyle.Flex : DisplayStyle.None;
 
         [CreateProperty] public string EffectiveMaxSize => this._effectiveMaxSizeText;
