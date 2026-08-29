@@ -11,6 +11,13 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         [SerializeField, DontCreateProperty]
         private SpriteSheet.PackingSettings _packingSettings = SpriteSheet.PackingSettings.Default;
 
+        private string _effectiveMaxSizeText;
+
+        public PackingSettingsPanelViewDataSource()
+        {
+            UpdateEffectiveMaxSizeText();
+        }
+
         public SpriteSheet.PackingSettings PackingSettings => this._packingSettings;
 
         [field: SerializeField]
@@ -27,17 +34,36 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         [CreateProperty]
         public int MaxSize {
             get => this._packingSettings.MaxSize;
-            set => this._packingSettings.MaxSize = value;
+            set {
+                this._packingSettings.MaxSize = value;
+                UpdateEffectiveMaxSizeText();
+            }
         }
 
         [CreateProperty]
         public bool ForcePowerOfTwo {
             get => this._packingSettings.ForcePowerOfTwo;
-            set => this._packingSettings.ForcePowerOfTwo = value;
+            set {
+                this._packingSettings.ForcePowerOfTwo = value;
+                UpdateEffectiveMaxSizeText();
+            }
         }
 
         [CreateProperty]
         public StyleColor ForcePowerOfTwoToggleColor => this.ForcePowerOfTwo ?
             new Color(0.398f, 0.801f, 0.450f) : Color.gray2;
+
+        [CreateProperty]
+        public DisplayStyle EffectiveMaxSizeDisplay => this.ForcePowerOfTwo ? DisplayStyle.Flex : DisplayStyle.None;
+
+        [CreateProperty] public string EffectiveMaxSize => this._effectiveMaxSizeText;
+
+        private void UpdateEffectiveMaxSizeText()
+        {
+            if (this.ForcePowerOfTwo)
+            {
+                this._effectiveMaxSizeText = $"Effective Max Size: {this._packingSettings.EffectiveMaxSize}";
+            }
+        }
     }
 }

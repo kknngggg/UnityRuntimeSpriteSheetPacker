@@ -40,6 +40,12 @@
                             <ui:DataBinding property="value" data-source-path="ForcePowerOfTwo"/>
                         </Bindings>
                     </ui:Toggle>
+                    <ui:Label name="EffectiveMaxSizeLabel" enabled="true" class="packing-settings__input--label">
+                        <Bindings>
+                            <ui:DataBinding property="style.display" data-source-path="EffectiveMaxSizeDisplay" binding-mode="ToTarget"/>
+                            <ui:DataBinding property="text" data-source-path="EffectiveMaxSize" binding-mode="ToTarget"/>
+                        </Bindings>
+                    </ui:Label>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button text="Pack" name="PackThisSheetButton" class="pack-this-sheet-button"/>

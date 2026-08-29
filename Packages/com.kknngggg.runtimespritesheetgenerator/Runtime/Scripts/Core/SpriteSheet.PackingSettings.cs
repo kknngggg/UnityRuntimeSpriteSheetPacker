@@ -18,7 +18,7 @@ namespace kknngggg.Unity.Sprites
                 ForcePowerOfTwo = true,
             };
 
-            internal readonly int EffectiveMaxSize =>
+            public readonly int EffectiveMaxSize =>
                 this.ForcePowerOfTwo ? LargestPowerOfTwoAtMost(this.MaxSize) : this.MaxSize;
 
             internal readonly void Validate()
