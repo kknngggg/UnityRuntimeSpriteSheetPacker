@@ -66,8 +66,8 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 | Field | Default | Meaning |
 |---|---|---|
 | `Padding` | `1` | Pixels between packed rects. Must be `>= 0`. |
-| `MaxSize` | `2048` | Max page width and height in pixels. Must be `>= 1`. A source texture larger than this throws. |
-| `ForcePowerOfTwo` | `true` | Round packed page size up to the next power of two, then clamp to `MaxSize`. |
+| `MaxSize` | `2048` | Max page width and height in pixels. Must be `>= 1`. A source texture larger than the effective max size throws. |
+| `ForcePowerOfTwo` | `true` | Pack into the largest power-of-two size `<= MaxSize`, then round each packed page axis up to the next power of two. |
 
 `PackingSettings.Default` returns those values.
 
@@ -93,7 +93,7 @@ Pack throws if:
 - A sprite name is empty or duplicated
 - A texture is not readable
 - `PixelsPerUnit` is `<= 0`
-- A texture’s width or height exceeds `MaxSize`
+- A texture’s width or height exceeds the effective max size (`MaxSize`, or the largest power of two `<= MaxSize` when `ForcePowerOfTwo` is on)
 - A remaining texture cannot be placed on a page (packer placed zero rects)
 
 ## Requirements

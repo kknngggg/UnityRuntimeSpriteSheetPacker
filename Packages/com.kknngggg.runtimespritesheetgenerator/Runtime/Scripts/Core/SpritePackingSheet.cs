@@ -79,12 +79,12 @@ namespace kknngggg.Unity.Sprites
 
                 if (string.IsNullOrEmpty(entry.Name))
                 {
-                    throw new ArgumentException("Texture at index " + i + " has empty name");
+                    throw new ArgumentException($"Texture at index {i} has empty name");
                 }
 
                 if (names.Add(entry.Name) == false)
                 {
-                    throw new ArgumentException("Duplicate sprite name: " + entry.Name);
+                    throw new ArgumentException($"Duplicate sprite name: {entry.Name}");
                 }
 
                 if (texture.isReadable == false)
@@ -95,22 +95,23 @@ namespace kknngggg.Unity.Sprites
                 if (entry.PixelsPerUnit <= 0f)
                 {
                     throw new ArgumentOutOfRangeException(nameof(SpritePackEntry.PixelsPerUnit),
-                                                          "PixelsPerUnit must be > 0 for '" + entry.Name + "'");
+                                                          $"PixelsPerUnit must be > 0 for '{entry.Name}'");
                 }
 
-                if (texture.width > this._settings.MaxSize || texture.height > this._settings.MaxSize)
+                int effectiveMaxSize = this._settings.EffectiveMaxSize;
+                if (texture.width > effectiveMaxSize || texture.height > effectiveMaxSize)
                 {
-                    throw new ArgumentException($"Texture '{entry.Name}' ({texture.width}x{texture.height}) exceeds maxSize {this._settings.MaxSize}");
+                    throw new ArgumentException($"Texture '{entry.Name}' ({texture.width}x{texture.height}) exceeds effective max size {effectiveMaxSize}");
                 }
             }
         }
 
         private PackedPage PackPage(List<SpritePackEntry> remaining, int pageIndex)
         {
-            int maxSize = this._settings.MaxSize;
+            int effectiveMaxSize = this._settings.EffectiveMaxSize;
             int padding = this._settings.Padding;
 
-            RectanglePacker packer = new RectanglePacker(maxSize, maxSize, padding);
+            RectanglePacker packer = new RectanglePacker(effectiveMaxSize, effectiveMaxSize, padding);
 
             for (int i = 0; i < remaining.Count; i++)
             {
@@ -132,9 +133,6 @@ namespace kknngggg.Unity.Sprites
                 atlasWidth = Mathf.NextPowerOfTwo(Mathf.Max(1, atlasWidth));
                 atlasHeight = Mathf.NextPowerOfTwo(Mathf.Max(1, atlasHeight));
             }
-
-            atlasWidth = Mathf.Clamp(atlasWidth, 1, maxSize);
-            atlasHeight = Mathf.Clamp(atlasHeight, 1, maxSize);
 
             Texture2D atlas = new Texture2D(atlasWidth, atlasHeight, TextureFormat.ARGB32, false);
             Color32[] clear = new Color32[atlasWidth * atlasHeight];

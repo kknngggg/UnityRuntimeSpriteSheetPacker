@@ -22,7 +22,7 @@ See [Install packages](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-
 
 ## Quick start
 
-Textures must have **Read/Write Enabled**. Names must be unique. No texture may be larger than `MaxSize`.
+Textures must have **Read/Write Enabled**. Names must be unique. No texture may be larger than the effective max size (`MaxSize`, or the largest power of two `<= MaxSize` when `ForcePowerOfTwo` is on).
 
 Two-argument `SpritePackEntry` uses defaults: PPU `100`, pivot `(0.5, 0.5)`, `SpriteMeshType.FullRect`.
 

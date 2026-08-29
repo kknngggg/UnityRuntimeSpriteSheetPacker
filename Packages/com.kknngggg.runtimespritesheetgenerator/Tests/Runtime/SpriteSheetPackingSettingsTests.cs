@@ -54,5 +54,33 @@ namespace kknngggg.Unity.Sprites.Tests
                 Assert.Throws<ArgumentOutOfRangeException>(settings.Validate);
             Assert.AreEqual("MaxSize", exception.ParamName);
         }
+
+        [Test]
+        public void EffectiveMaxSize_WithoutForcePowerOfTwo_IsMaxSize()
+        {
+            SpriteSheet.PackingSettings settings = new SpriteSheet.PackingSettings {
+                Padding = 0,
+                MaxSize = 5,
+                ForcePowerOfTwo = false,
+            };
+
+            Assert.AreEqual(5, settings.EffectiveMaxSize);
+        }
+
+        [Test]
+        public void EffectiveMaxSize_WithForcePowerOfTwo_IsLargestPowerOfTwoAtMostMaxSize()
+        {
+            SpriteSheet.PackingSettings settings = new SpriteSheet.PackingSettings {
+                Padding = 0,
+                MaxSize = 5,
+                ForcePowerOfTwo = true,
+            };
+
+            Assert.AreEqual(4, settings.EffectiveMaxSize);
+            Assert.AreEqual(1, SpriteSheet.PackingSettings.LargestPowerOfTwoAtMost(1));
+            Assert.AreEqual(8, SpriteSheet.PackingSettings.LargestPowerOfTwoAtMost(8));
+            Assert.AreEqual(8, SpriteSheet.PackingSettings.LargestPowerOfTwoAtMost(15));
+            Assert.AreEqual(2048, SpriteSheet.PackingSettings.LargestPowerOfTwoAtMost(2048));
+        }
     }
 }

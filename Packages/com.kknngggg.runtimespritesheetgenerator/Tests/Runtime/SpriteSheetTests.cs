@@ -114,15 +114,36 @@ namespace kknngggg.Unity.Sprites.Tests
         }
 
         [Test]
-        public void ForcePowerOfTwo_ClampsToMaxSize()
+        public void ForcePowerOfTwo_NonPowerOfTwoMaxSize_UsesLargestPowerOfTwoEffectiveMax()
         {
-            Texture2D texture = CreateTexture(5, 5, "five");
+            Texture2D texture = CreateTexture(3, 3, "odd");
             this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
                                           SmallSettings(maxSize: 5, padding: 0, forcePowerOfTwo: true));
 
             Texture2D page = this.Sheet.GetPage(0);
-            Assert.AreEqual(5, page.width);
-            Assert.AreEqual(5, page.height);
+            Assert.AreEqual(4, page.width);
+            Assert.AreEqual(4, page.height);
+        }
+
+        [Test]
+        public void ForcePowerOfTwo_IndependentAxes()
+        {
+            Texture2D texture = CreateTexture(3, 5, "rect");
+            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
+                                          SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: true));
+
+            Texture2D page = this.Sheet.GetPage(0);
+            Assert.AreEqual(4, page.width);
+            Assert.AreEqual(8, page.height);
+        }
+
+        [Test]
+        public void ForcePowerOfTwo_TextureLargerThanEffectiveMaxSize_Throws()
+        {
+            Texture2D texture = CreateTexture(5, 5, "five");
+            Assert.Throws<ArgumentException>(
+                () => SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
+                                       SmallSettings(maxSize: 5, padding: 0, forcePowerOfTwo: true)));
         }
 
         [Test]

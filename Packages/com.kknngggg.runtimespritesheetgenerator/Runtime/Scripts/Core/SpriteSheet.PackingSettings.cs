@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace kknngggg.Unity.Sprites
 {
@@ -17,6 +18,9 @@ namespace kknngggg.Unity.Sprites
                 ForcePowerOfTwo = true,
             };
 
+            internal readonly int EffectiveMaxSize =>
+                this.ForcePowerOfTwo ? LargestPowerOfTwoAtMost(this.MaxSize) : this.MaxSize;
+
             internal readonly void Validate()
             {
                 if (this.Padding < 0)
@@ -28,6 +32,12 @@ namespace kknngggg.Unity.Sprites
                 {
                     throw new ArgumentOutOfRangeException(nameof(this.MaxSize), "maxSize must be >= 1");
                 }
+            }
+
+            internal static int LargestPowerOfTwoAtMost(int value)
+            {
+                int next = Mathf.NextPowerOfTwo(Mathf.Max(1, value));
+                return next > value ? next >> 1 : next;
             }
         }
     }
