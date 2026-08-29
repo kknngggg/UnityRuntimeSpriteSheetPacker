@@ -1,20 +1,31 @@
 # Runtime SpriteSheet Generator
 
-Pack `SpritePackEntry` lists into sprite sheets at runtime and fetch `Sprite` objects by name. No Editor atlas bake required.
+Pack readable `Texture2D` assets into sprite sheets at runtime and fetch Unity `Sprite` objects by name. No Editor atlas bake.
+
+This repository is a Unity development project. The installable UPM package is [`com.kknngggg.runtimespritesheetgenerator`](Packages/com.kknngggg.runtimespritesheetgenerator).
 
 Public API lives in `kknngggg.Unity.Sprites`. Entry point is `SpriteSheet.Pack`.
 
+## Requirements
+
+- **Package:** Unity 2021.3 LTS or later
+- **This project:** Unity 6 (`6000.3`) — demos and Play Mode tests
+
 ## Install
 
-Unity 2021.3 LTS or later.
+### Git (Package Manager)
 
-- **Git:** Window > Package Manager > + > Add package from git URL:
+Window > Package Manager > + > Add package from git URL:
 
 ```
 https://github.com/kknngggg/UnityRuntimeSpriteSheetsGenerator.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
 ```
 
-- **Local:** Window > Package Manager > + > Add package from disk… > select this folder’s `package.json`.
+### Local
+
+Window > Package Manager > + > Add package from disk… > select `Packages/com.kknngggg.runtimespritesheetgenerator/package.json`.
+
+This clone already embeds the package (`file:com.kknngggg.runtimespritesheetgenerator` in the lock file).
 
 See [Install packages](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-install.html).
 
@@ -83,10 +94,26 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 Sprite sprite = sheet.GetSprite("walk_0");
 ```
 
+If your scripts use a custom assembly definition, add a reference to `kknngggg.RuntimeSpriteSheetGenerator`.
+
+## Repository layout
+
+- `Packages/com.kknngggg.runtimespritesheetgenerator` — UPM package (runtime API, tests, docs)
+- `Assets/Demos/SpriteSheets` — UI Toolkit demo: pick textures, pack, preview atlas pages
+- `Assets/Demos/RectanglePacking` — rectangle packer visualization
+
+Scenes: `Assets/Demos/SpriteSheets/Scenes/SpriteSheetsDemo.unity`, `Assets/Demos/RectanglePacking/Scenes/RectanglePacking.unity`.
+
 ## Docs
 
-[Documentation/index.md](Documentation/index.md)
+- Package readme: [Packages/com.kknngggg.runtimespritesheetgenerator/README.md](Packages/com.kknngggg.runtimespritesheetgenerator/README.md)
+- API guide: [Packages/com.kknngggg.runtimespritesheetgenerator/Documentation/index.md](Packages/com.kknngggg.runtimespritesheetgenerator/Documentation/index.md)
+- Changelog: [Packages/com.kknngggg.runtimespritesheetgenerator/CHANGELOG.md](Packages/com.kknngggg.runtimespritesheetgenerator/CHANGELOG.md)
 
 ## License
 
-MIT. See [LICENSE.md](LICENSE.md). Rectangle packing algorithm: Ville Koskela (AS3), ported by Da Viking Code. Rewrite of the original [UnityRuntimeSpriteSheetsGenerator](https://github.com/DaVikingCode/UnityRuntimeSpriteSheetsGenerator) `AssetPacker` API. See [Third Party Notices.md](Third%20Party%20Notices.md).
+MIT. See [LICENSE.txt](LICENSE.txt).
+
+This project rewrites the original [UnityRuntimeSpriteSheetsGenerator](https://github.com/DaVikingCode/UnityRuntimeSpriteSheetsGenerator) (`AssetPacker` MonoBehaviour) as a UPM package with a `SpriteSheet` API. Rectangle packing algorithm: Ville Koskela (AS3), ported to Unity by Da Viking Code.
+
+Third-party licenses: [Third Party Notices.md](Third%20Party%20Notices.md) (same notices as the package).

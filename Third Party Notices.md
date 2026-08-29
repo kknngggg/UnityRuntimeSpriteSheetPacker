@@ -1,4 +1,6 @@
-This package contains third-party software components governed by the license(s) indicated below:
+This repository contains third-party software components governed by the license(s) indicated below.
+
+The UPM package `com.kknngggg.runtimespritesheetgenerator` carries the same notices at `Packages/com.kknngggg.runtimespritesheetgenerator/Third Party Notices.md`.
 
 ---------
 
@@ -11,7 +13,10 @@ Ported to Unity by Da Viking Code.
 
 Original: https://github.com/villekoskelaorg/RectanglePacking
 
-Source in this package: `Runtime/Scripts/RectanglePacking/`
+Used in:
+
+- `Packages/com.kknngggg.runtimespritesheetgenerator/Runtime/Scripts/RectanglePacking/`
+- `Assets/Demos/RectanglePacking/`
 
 You may redistribute, use and/or modify this source code freely
 but this copyright statement must not be removed from the source files.
@@ -28,6 +33,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---------
+
 Component Name: Unity Runtime SpriteSheets Generator (original AssetPacker / RectanglePacking port)
 
 License Type: MIT
@@ -36,7 +42,7 @@ Copyright (c) 2020 Da Viking Code
 
 https://github.com/DaVikingCode/UnityRuntimeSpriteSheetsGenerator
 
-This package rewrites that library. The original `AssetPacker` MonoBehaviour API is not included. The RectanglePacking C# port and MIT terms still apply to the inherited packing code.
+This project is a rewrite of that library. The original `AssetPacker` MonoBehaviour API is not part of the current package. The RectanglePacking C# port and MIT terms still apply to the inherited packing code.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

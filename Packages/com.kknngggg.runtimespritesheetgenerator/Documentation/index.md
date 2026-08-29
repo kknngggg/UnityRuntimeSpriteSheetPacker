@@ -68,14 +68,15 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 | `Padding` | `1` | Pixels between packed rects. Must be `>= 0`. |
 | `MaxSize` | `2048` | Max page width and height in pixels. Must be `>= 1`. A source texture larger than the effective max size throws. |
 | `ForcePowerOfTwo` | `true` | Pack into the largest power-of-two size `<= MaxSize`, then round each packed page axis up to the next power of two. |
+| `EffectiveMaxSize` | derived | `MaxSize` when `ForcePowerOfTwo` is off; otherwise the largest power of two `<= MaxSize`. Source textures larger than this throw. |
 
-`PackingSettings.Default` returns those values.
+`PackingSettings.Default` returns `Padding` 1, `MaxSize` 2048, `ForcePowerOfTwo` true.
 
 ## SpriteSheet API
 
 | Member | Description |
 |---|---|
-| `Pack(IEnumerable<SpritePackEntry>, PackingSettings)` | Pack entries. Empty name falls back to `texture.name`. Slice PPU, pivot, and mesh type come from the entry. |
+| `Pack(IEnumerable<SpritePackEntry>, PackingSettings, string texturePageName = null)` | Pack entries. Empty name falls back to `texture.name`. Slice PPU, pivot, and mesh type come from the entry. Optional `texturePageName` prefixes page texture names (`{name}_{pageIndex}`); default is a GUID. |
 | `PageCount` | Number of atlas `Texture2D` pages. |
 | `GetPage(int pageIndex)` | Page texture. Throws if disposed or out of range. |
 | `GetSprite(string spriteName)` | Creates and caches a `Sprite` using that slice’s PPU, pivot, and mesh type. Returns `null` if the name is missing. |
@@ -116,3 +117,4 @@ Runtime SpriteSheet Generator version 0.1.0 includes the following known limitat
 | Date | Reason |
 |---|---|
 | Aug 13, 2026 | Document created. |
+| Aug 29, 2026 | Document `texturePageName` and `EffectiveMaxSize`. |
