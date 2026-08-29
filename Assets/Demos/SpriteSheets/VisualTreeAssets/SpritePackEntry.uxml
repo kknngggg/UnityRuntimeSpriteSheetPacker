@@ -19,7 +19,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="PivotInput" class="sprite-pack-entry__input">
             <ui:Label text="Pivot" name="PivotInputLabel" class="sprite-pack-entry__input--label"/>
-            <ui:VisualElement name="PivotInputField" class="sprite-pack-entry__field" style="flex-shrink: 0; flex-direction: row;">
+            <ui:VisualElement name="PivotInputField" class="sprite-pack-entry__field sprite-pack-entry__input--field" style="flex-shrink: 0; flex-direction: row;">
                 <ui:Label text="X" name="PivotXInputLabel" class="pivot-input-field__label"/>
                 <ui:FloatField keyboard-type="NumberPad" name="PivotXInputField" class="pivot-input-field__field">
                     <Bindings>
@@ -42,7 +42,7 @@
                 </Bindings>
             </ui:EnumField>
         </ui:VisualElement>
-        <ui:VisualElement name="DiskPathInput" class="sprite-pack-entry__input">
+        <ui:VisualElement name="DiskPathInput" class="sprite-pack-entry__input" style="max-width: 100%;">
             <ui:Label text="Disk Path" name="DiskPathInputLabel" class="sprite-pack-entry__input--label"/>
             <ui:TextField name="DiskPathInputField" placeholder-text="Texture Path on Disk" class="sprite-pack-entry__input--field">
                 <Bindings>

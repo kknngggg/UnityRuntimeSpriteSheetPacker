@@ -7,7 +7,7 @@
     flex-direction: row;
     flex-shrink: 0;
     flex-grow: 0;
-    height: 64px;
+    justify-content: space-between;
 }
 
 .sprite-pack-entry__input--label {
@@ -26,6 +26,7 @@
     font-size: 24px;
     white-space: nowrap;
     color: rgb(233, 233, 233);
+    max-width: 50%;
 }
 
 .pivot-input-field__label {
@@ -51,21 +52,24 @@
     display: none;
 }
 
-.sprite-pack-entry__input--field > .unity-base-field__input {
+.sprite-pack-entry__input--field > .unity-base-field__input,
+.sprite-pack-entry__input--field > .unity-enum-field__input {
     background-color: rgb(41, 40, 45);
     flex-grow: 1;
     min-width: 0;
     overflow: hidden;
+    margin: 0;
 }
 
 .pivot-input-field__field > .unity-base-field__label {
     display: none;
 }
 
-.pivot-input-field__field > .unity-base-field__input {
+.pivot-input-field__field .unity-base-field__input {
     background-color: rgb(41, 40, 45);
     flex-grow: 1;
     min-width: 0;
+    margin: 0;
 }
 
 .sprite-pack-entry__bottm-button {
@@ -137,5 +141,5 @@
 .pivot-input-field__field:focus > .unity-base-field__input,
 .pivot-input-field__field:focus > .unity-base-field__input {
     border-left-width: 10px;
-    border-left-color: rgb(101, 204, 114)
+    border-left-color: rgb(101, 204, 114);
 }
