@@ -49,12 +49,13 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets.IO
 
         private static string OpenFilePanel(string[] extensions)
         {
-            if (extensions is { Length: > 0 })
+            string joined = FileExtension.Join(extensions);
+            if (string.IsNullOrEmpty(joined) == false)
             {
                 return EditorUtility.OpenFilePanelWithFilters(
                     "Select File",
                     LastDirectory,
-                    new[] { "Images", string.Join(",", extensions) });
+                    new[] { "Images", joined });
             }
 
             return EditorUtility.OpenFilePanel("Select File", LastDirectory, string.Empty);
@@ -65,7 +66,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets.IO
             fullSavePath = EditorUtility.SaveFilePanel("Save File",
                                                        LastDirectory,
                                                        fileName,
-                                                       fileExtension);
+                                                       FileExtension.Normalize(fileExtension));
 
             if (string.IsNullOrWhiteSpace(fullSavePath))
             {

@@ -65,7 +65,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         {
             SetupForcePowerOfTwoToggle();
 
-            this._fileBrowser = new UnityEditorFileBrowser();
+            this._fileBrowser = CreateFileBrowser();
 
             this._packingSettingsPanelView.dataSource = this._packingSettingsPanelViewDataSource;
             this._packedTexturePreviewView.dataSource = this._packedTexturePreviewViewDataSource;
@@ -83,6 +83,19 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._previousPageButton.clicked -= OnPreviousPageButtonClicked;
             this._nextPageButton.clicked -= OnNextPageButtonClicked;
             this._packThisSheetButton.clicked -= OnPackThisSheetButtonClicked;
+        }
+
+        private static IFileBrowser CreateFileBrowser()
+        {
+#if UNITY_EDITOR
+            return new UnityEditorFileBrowser();
+#elif UNITY_STANDALONE_WIN
+            return new StandaloneWindowsFileBrowser();
+#elif UNITY_STANDALONE_OSX
+            return new StandaloneMacFileBrowser();
+#else
+            return IFileBrowser.Null;
+#endif
         }
 
         private void QueryUiElements()
