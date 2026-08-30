@@ -11,7 +11,7 @@ Unity 2021.3 LTS or later.
 - **Git:** Window > Package Manager > + > Add package from git URL:
 
 ```
-https://github.com/kknngggg/UnityRuntimeSpriteSheetsGenerator.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
+https://github.com/kknngggg/SpriteSheetPacker.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
 ```
 
 - **Local:** Window > Package Manager > + > Add package from disk… > select this folder’s `package.json`.

@@ -10,7 +10,7 @@ To install this package, follow the instructions in the [Unity Package Manager](
 
 Minimum Unity version: **2021.3** LTS.
 
-No extra Editor menus or resources are required. Add a reference to assembly `kknngggg.RuntimeSpriteSheetGenerator` if your scripts use a custom assembly definition.
+No extra Editor menus or resources are required. Add a reference to assembly `kknngggg.RuntimeSpriteSheetPacker` if your scripts use a custom assembly definition.
 
 # Using Runtime SpriteSheet Generator
 

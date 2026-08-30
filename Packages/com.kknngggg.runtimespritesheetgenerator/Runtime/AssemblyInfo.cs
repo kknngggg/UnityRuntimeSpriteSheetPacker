@@ -1,3 +1,3 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("kknngggg.RuntimeSpriteSheetGenerator.Tests")]
+[assembly: InternalsVisibleTo("kknngggg.RuntimeSpriteSheetPacker.Tests")]

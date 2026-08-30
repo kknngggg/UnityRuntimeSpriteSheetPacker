@@ -1,8 +1,8 @@
 {
-    "name": "kknngggg.RuntimeSpriteSheetGenerator.Tests",
+    "name": "kknngggg.RuntimeSpriteSheetPacker.Tests",
     "rootNamespace": "kknngggg.Unity.Sprites.Tests",
     "references": [
-        "kknngggg.RuntimeSpriteSheetGenerator",
+        "kknngggg.RuntimeSpriteSheetPacker",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

@@ -1,5 +1,5 @@
 {
-    "name": "kknngggg.RuntimeSpriteSheetGenerator",
+    "name": "kknngggg.RuntimeSpriteSheetPacker",
     "rootNamespace": "kknngggg.Unity.Sprites",
     "references": [],
     "includePlatforms": [],

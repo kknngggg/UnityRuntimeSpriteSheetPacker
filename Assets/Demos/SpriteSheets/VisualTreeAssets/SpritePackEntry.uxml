@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Demos/SpriteSheets/StyleSheets/SpritePackEntry.uss?fileID=7433441132597879392&amp;guid=09ce21c5e376346a28fdc1fb8bd85758&amp;type=3#SpritePackEntry"/>
-    <ui:VisualElement name="SpritePackEntryPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.SpritePackEntryViewDatasource, kknngggg.RuntimeSpriteSheetGenerator.Demos.SpriteSheets" class="sprite-pack-entry" style="height: 435px; flex-shrink: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+    <ui:VisualElement name="SpritePackEntryPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.SpritePackEntryViewDatasource, kknngggg.RuntimeSpriteSheetPacker.Demos.SpriteSheets" class="sprite-pack-entry" style="height: 435px; flex-shrink: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
         <ui:VisualElement name="NameInput" class="sprite-pack-entry__input">
             <ui:Label text="Name" name="NameInputLabel" class="sprite-pack-entry__input--label"/>
             <ui:TextField name="NameInputField" placeholder-text="Sprite Slice Name" class="sprite-pack-entry__input--field">

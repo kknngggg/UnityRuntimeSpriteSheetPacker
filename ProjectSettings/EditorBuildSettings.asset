@@ -5,8 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Demos/RectanglePacking/Scenes/RectanglePacking.unity
     guid: 36dbc0cc6c90c404f811e1204ba5406e
+  - enabled: 1
+    path: Assets/Demos/SpriteSheets/Scenes/SpriteSheetsDemo.unity
+    guid: bc0d66cf55169440eb34eb08dab1bfc1
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

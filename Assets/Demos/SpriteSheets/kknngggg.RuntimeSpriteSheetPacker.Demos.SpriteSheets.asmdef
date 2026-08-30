@@ -1,6 +1,6 @@
 {
-    "name": "kknngggg.RuntimeSpriteSheetGenerator.Demos.RectanglePacking",
-    "rootNamespace": "kknngggg.RuntimeSpriteSheetGenerator",
+    "name": "kknngggg.RuntimeSpriteSheetPacker.Demos.SpriteSheets",
+    "rootNamespace": "kknngggg.Unity.Sprites",
     "references": [
         "GUID:5cd717654391f49739001598c158eb77"
     ],

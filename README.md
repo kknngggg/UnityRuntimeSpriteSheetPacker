@@ -18,7 +18,7 @@ Public API lives in `kknngggg.Unity.Sprites`. Entry point is `SpriteSheet.Pack`.
 Window > Package Manager > + > Add package from git URL:
 
 ```
-https://github.com/kknngggg/UnityRuntimeSpriteSheetsGenerator.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
+https://github.com/kknngggg/SpriteSheetPacker.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
 ```
 
 ### Local
@@ -94,7 +94,7 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 Sprite sprite = sheet.GetSprite("walk_0");
 ```
 
-If your scripts use a custom assembly definition, add a reference to `kknngggg.RuntimeSpriteSheetGenerator`.
+If your scripts use a custom assembly definition, add a reference to `kknngggg.RuntimeSpriteSheetPacker`.
 
 ## Repository layout
 
