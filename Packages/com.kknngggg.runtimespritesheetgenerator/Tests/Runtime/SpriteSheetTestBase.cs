@@ -65,5 +65,23 @@ namespace kknngggg.Unity.Sprites.Tests
                 ForcePowerOfTwo = forcePowerOfTwo,
             };
         }
+
+        protected SpriteSheet PackSuccessfully(IEnumerable<SpritePackEntry> entries,
+                                            SpriteSheet.PackingSettings settings,
+                                            string texturePageName = null)
+        {
+            PackingResult result = SpriteSheet.Pack(entries, settings, texturePageName);
+            Assert.IsTrue(result.IsSuccess, result.Error != null ? result.Error.Message : "pack failed");
+            this.Sheet = result.SpriteSheet;
+            return this.Sheet;
+        }
+
+        protected static void AssertPackFailed(PackingResult result, int expectedCode)
+        {
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsNotNull(result.Error);
+            Assert.AreEqual(expectedCode, result.Error.Code);
+            Assert.IsNull(result.SpriteSheet);
+        }
     }
 }

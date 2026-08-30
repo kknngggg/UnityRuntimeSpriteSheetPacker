@@ -12,9 +12,9 @@ namespace kknngggg.Unity.Sprites.Tests
         public void ToBytes_ThenLoad_RestoresPagesAndSlices()
         {
             Texture2D texture = CreateTexture(8, 8, "hero", Color.red);
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture, "hero") },
-                                          SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: false),
-                                          "testAtlas");
+            PackSuccessfully(new[] { new SpritePackEntry(texture, "hero") },
+                            SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: false),
+                            "testAtlas");
 
             SpriteSheet loaded = SpriteSheet.Load(this.Sheet.ToBytes());
             this.Sheet.Dispose();
@@ -44,7 +44,7 @@ namespace kknngggg.Unity.Sprites.Tests
         {
             Texture2D texture = CreateTexture(8, 8, "src");
             Vector2 pivot = new Vector2(0.5f, 0f);
-            this.Sheet = SpriteSheet.Pack(
+            PackSuccessfully(
                 new[] { new SpritePackEntry(texture, "walk_0", 50f, pivot, SpriteMeshType.FullRect) },
                 SmallSettings());
 
@@ -66,8 +66,8 @@ namespace kknngggg.Unity.Sprites.Tests
         public void ToBytes_ThenLoad_RestoresUnicodeSliceName()
         {
             Texture2D texture = CreateTexture(4, 4, "file");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture, "café_ヒーロー") },
-                                          SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
+            PackSuccessfully(new[] { new SpritePackEntry(texture, "café_ヒーロー") },
+                            SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
 
             SpriteSheet loaded = SpriteSheet.Load(this.Sheet.ToBytes());
             this.Sheet.Dispose();
@@ -82,8 +82,8 @@ namespace kknngggg.Unity.Sprites.Tests
         {
             Texture2D a = CreateTexture(8, 8, "a", Color.red);
             Texture2D b = CreateTexture(8, 8, "b", Color.blue);
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(a), new SpritePackEntry(b) },
-                                          SmallSettings(maxSize: 8, padding: 0, forcePowerOfTwo: false));
+            PackSuccessfully(new[] { new SpritePackEntry(a), new SpritePackEntry(b) },
+                            SmallSettings(maxSize: 8, padding: 0, forcePowerOfTwo: false));
 
             SpriteSheet loaded = SpriteSheet.Load(this.Sheet.ToBytes());
             this.Sheet.Dispose();
@@ -125,7 +125,7 @@ namespace kknngggg.Unity.Sprites.Tests
         public void ToBytes_Disposed_Throws()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, SmallSettings());
+            PackSuccessfully(new[] { new SpritePackEntry(texture) }, SmallSettings());
             this.Sheet.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => this.Sheet.ToBytes());
@@ -147,8 +147,8 @@ namespace kknngggg.Unity.Sprites.Tests
         public void Load_BadMagic_Throws()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
-                                          SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
+            PackSuccessfully(new[] { new SpritePackEntry(texture) },
+                            SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
 
             byte[] data = this.Sheet.ToBytes();
             data[0] = (byte)'X';
@@ -160,8 +160,8 @@ namespace kknngggg.Unity.Sprites.Tests
         public void Load_UnsupportedVersion_Throws()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
-                                          SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
+            PackSuccessfully(new[] { new SpritePackEntry(texture) },
+                            SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
 
             byte[] data = this.Sheet.ToBytes();
             data[4] = 99;
@@ -173,8 +173,8 @@ namespace kknngggg.Unity.Sprites.Tests
         public void Load_TruncatedData_Throws()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
-                                          SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
+            PackSuccessfully(new[] { new SpritePackEntry(texture) },
+                            SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
 
             byte[] data = this.Sheet.ToBytes();
             byte[] truncated = new byte[data.Length - 1];

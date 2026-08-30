@@ -1,4 +1,5 @@
 using System;
+using kknngggg.Unity.Sprites.Errors;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -7,17 +8,18 @@ namespace kknngggg.Unity.Sprites.Tests
     public class SpritePackingSheetTests : SpriteSheetTestBase
     {
         [Test]
-        public void Constructor_NullEntries_Throws()
+        public void PackThisSheet_NullEntries_Fails()
         {
-            Assert.Throws<ArgumentNullException>(
-                () => new SpritePackingSheet(null, SmallSettings()));
+            SpritePackingSheet packingSheet = new SpritePackingSheet(null, SmallSettings());
+            AssertPackFailed(packingSheet.PackThisSheet(), PackingErrorCodes.NULL_ENTRIES);
         }
 
         [Test]
-        public void Constructor_NullTexture_Throws()
+        public void PackThisSheet_NullTexture_Fails()
         {
             SpritePackEntry[] entries = { new SpritePackEntry(null, "ghost") };
-            Assert.Throws<ArgumentException>(() => new SpritePackingSheet(entries, SmallSettings()));
+            SpritePackingSheet packingSheet = new SpritePackingSheet(entries, SmallSettings());
+            AssertPackFailed(packingSheet.PackThisSheet(), PackingErrorCodes.NULL_TEXTURE);
         }
 
         [Test]
@@ -30,7 +32,9 @@ namespace kknngggg.Unity.Sprites.Tests
             };
 
             SpritePackingSheet packingSheet = new SpritePackingSheet(entries, SmallSettings());
-            this.Sheet = packingSheet.PackThisSheet();
+            PackingResult result = packingSheet.PackThisSheet();
+            Assert.IsTrue(result.IsSuccess, result.Error != null ? result.Error.Message : "pack failed");
+            this.Sheet = result.SpriteSheet;
 
             Assert.IsTrue(this.Sheet.TryGetSlice("custom", out SpriteSheet.SliceInfo slice));
             Assert.IsFalse(this.Sheet.TryGetSlice("file", out _));
@@ -41,10 +45,10 @@ namespace kknngggg.Unity.Sprites.Tests
         }
 
         [Test]
-        public void PackThisSheet_Empty_Throws()
+        public void PackThisSheet_Empty_Fails()
         {
             SpritePackingSheet packingSheet = new SpritePackingSheet(Array.Empty<SpritePackEntry>(), SmallSettings());
-            Assert.Throws<InvalidOperationException>(() => packingSheet.PackThisSheet());
+            AssertPackFailed(packingSheet.PackThisSheet(), PackingErrorCodes.EMPTY_ENTRIES);
         }
 
         [Test]
@@ -59,7 +63,9 @@ namespace kknngggg.Unity.Sprites.Tests
 
             SpritePackingSheet packingSheet =
                 new SpritePackingSheet(entries, SmallSettings(maxSize: 8, padding: 0, forcePowerOfTwo: false));
-            this.Sheet = packingSheet.PackThisSheet();
+            PackingResult result = packingSheet.PackThisSheet();
+            Assert.IsTrue(result.IsSuccess, result.Error != null ? result.Error.Message : "pack failed");
+            this.Sheet = result.SpriteSheet;
 
             Assert.AreEqual(2, this.Sheet.PageCount);
             int pageA = this.Sheet.Slices["a"].Page;
@@ -76,7 +82,9 @@ namespace kknngggg.Unity.Sprites.Tests
             SpritePackingSheet packingSheet =
                 new SpritePackingSheet(new[] { new SpritePackEntry(texture) },
                                        SmallSettings(maxSize: 16, padding: 0, forcePowerOfTwo: false));
-            this.Sheet = packingSheet.PackThisSheet();
+            PackingResult result = packingSheet.PackThisSheet();
+            Assert.IsTrue(result.IsSuccess, result.Error != null ? result.Error.Message : "pack failed");
+            this.Sheet = result.SpriteSheet;
 
             Assert.AreEqual(1, this.Sheet.PageCount);
             Assert.AreEqual(1, this.Sheet.Slices.Count);

@@ -25,7 +25,7 @@ namespace kknngggg.Unity.Sprites
             }
         }
 
-        public static SpriteSheet Pack(IEnumerable<SpritePackEntry> entries, PackingSettings settings, string texturePageName = null)
+        public static PackingResult Pack(IEnumerable<SpritePackEntry> entries, PackingSettings settings, string texturePageName = null)
         {
             SpritePackingSheet packingSheet = new SpritePackingSheet(entries, settings, texturePageName);
             return packingSheet.PackThisSheet();

@@ -1,4 +1,5 @@
 using System;
+using kknngggg.Unity.Sprites.Errors;
 using UnityEngine;
 
 namespace kknngggg.Unity.Sprites
@@ -21,17 +22,21 @@ namespace kknngggg.Unity.Sprites
             public readonly int EffectiveMaxSize =>
                 this.ForcePowerOfTwo ? LargestPowerOfTwoAtMost(this.MaxSize) : this.MaxSize;
 
-            internal readonly void Validate()
+            internal readonly PackingError Validate()
             {
                 if (this.Padding < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(this.Padding), "padding must be >= 0");
+                    return new PackingError(PackingErrorCodes.INVALID_PADDING,
+                                            "padding must be >= 0");
                 }
 
                 if (this.MaxSize < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(this.MaxSize), "maxSize must be >= 1");
+                    return new PackingError(PackingErrorCodes.INVALID_MAX_SIZE,
+                                            "maxSize must be >= 1");
                 }
+
+                return PackingError.None;
             }
 
             internal static int LargestPowerOfTwoAtMost(int value)

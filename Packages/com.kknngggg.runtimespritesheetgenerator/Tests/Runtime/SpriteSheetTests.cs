@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using kknngggg.Unity.Sprites.Errors;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace kknngggg.Unity.Sprites.Tests
             Texture2D texture = CreateTexture(8, 8, "hero", Color.red);
             SpritePackEntry[] entries = { new SpritePackEntry(texture) };
 
-            this.Sheet = SpriteSheet.Pack(entries, SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: false), "testAtlas");
+            PackSuccessfully(entries, SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: false), "testAtlas");
 
             Assert.AreEqual(1, this.Sheet.PageCount);
             Assert.AreEqual(1, this.Sheet.Slices.Count);
@@ -43,7 +44,7 @@ namespace kknngggg.Unity.Sprites.Tests
                 new SpritePackEntry(texture, "walk_0", 50f, pivot, SpriteMeshType.FullRect),
             };
 
-            this.Sheet = SpriteSheet.Pack(entries, SmallSettings());
+            PackSuccessfully(entries, SmallSettings());
 
             Assert.IsTrue(this.Sheet.TryGetSlice("walk_0", out SpriteSheet.SliceInfo slice));
             Assert.AreEqual(50f, slice.PixelsPerUnit);
@@ -63,7 +64,7 @@ namespace kknngggg.Unity.Sprites.Tests
         public void GetSprite_CachesSameInstance()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, SmallSettings());
+            PackSuccessfully(new[] { new SpritePackEntry(texture) }, SmallSettings());
 
             Sprite first = this.Sheet.GetSprite("icon");
             Sprite second = this.Sheet.GetSprite("icon");
@@ -75,7 +76,7 @@ namespace kknngggg.Unity.Sprites.Tests
         public void GetSprite_UnknownName_ReturnsNull()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, SmallSettings());
+            PackSuccessfully(new[] { new SpritePackEntry(texture) }, SmallSettings());
 
             Assert.IsTrue(this.Sheet.GetSprite("missing") == null);
         }
@@ -84,7 +85,7 @@ namespace kknngggg.Unity.Sprites.Tests
         public void TryGetSlice_UnknownName_ReturnsFalse()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, SmallSettings());
+            PackSuccessfully(new[] { new SpritePackEntry(texture) }, SmallSettings());
 
             bool found = this.Sheet.TryGetSlice("missing", out SpriteSheet.SliceInfo slice);
             Assert.IsFalse(found);
@@ -95,7 +96,7 @@ namespace kknngggg.Unity.Sprites.Tests
         public void GetPage_OutOfRange_Throws()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, SmallSettings());
+            PackSuccessfully(new[] { new SpritePackEntry(texture) }, SmallSettings());
 
             Assert.Throws<ArgumentOutOfRangeException>(() => this.Sheet.GetPage(-1));
             Assert.Throws<ArgumentOutOfRangeException>(() => this.Sheet.GetPage(1));
@@ -105,8 +106,8 @@ namespace kknngggg.Unity.Sprites.Tests
         public void ForcePowerOfTwo_RoundsPageSize()
         {
             Texture2D texture = CreateTexture(3, 3, "odd");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
-                                          SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: true));
+            PackSuccessfully(new[] { new SpritePackEntry(texture) },
+                            SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: true));
 
             Texture2D page = this.Sheet.GetPage(0);
             Assert.AreEqual(4, page.width);
@@ -117,8 +118,8 @@ namespace kknngggg.Unity.Sprites.Tests
         public void ForcePowerOfTwo_NonPowerOfTwoMaxSize_UsesLargestPowerOfTwoEffectiveMax()
         {
             Texture2D texture = CreateTexture(3, 3, "odd");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
-                                          SmallSettings(maxSize: 5, padding: 0, forcePowerOfTwo: true));
+            PackSuccessfully(new[] { new SpritePackEntry(texture) },
+                            SmallSettings(maxSize: 5, padding: 0, forcePowerOfTwo: true));
 
             Texture2D page = this.Sheet.GetPage(0);
             Assert.AreEqual(4, page.width);
@@ -129,8 +130,8 @@ namespace kknngggg.Unity.Sprites.Tests
         public void ForcePowerOfTwo_IndependentAxes()
         {
             Texture2D texture = CreateTexture(3, 5, "rect");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
-                                          SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: true));
+            PackSuccessfully(new[] { new SpritePackEntry(texture) },
+                            SmallSettings(maxSize: 64, padding: 0, forcePowerOfTwo: true));
 
             Texture2D page = this.Sheet.GetPage(0);
             Assert.AreEqual(4, page.width);
@@ -138,12 +139,12 @@ namespace kknngggg.Unity.Sprites.Tests
         }
 
         [Test]
-        public void ForcePowerOfTwo_TextureLargerThanEffectiveMaxSize_Throws()
+        public void ForcePowerOfTwo_TextureLargerThanEffectiveMaxSize_Fails()
         {
             Texture2D texture = CreateTexture(5, 5, "five");
-            Assert.Throws<ArgumentException>(
-                () => SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
-                                       SmallSettings(maxSize: 5, padding: 0, forcePowerOfTwo: true)));
+            PackingResult result = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) },
+                                                     SmallSettings(maxSize: 5, padding: 0, forcePowerOfTwo: true));
+            AssertPackFailed(result, PackingErrorCodes.TEXTURE_EXCEEDS_MAX_SIZE);
         }
 
         [Test]
@@ -156,7 +157,7 @@ namespace kknngggg.Unity.Sprites.Tests
                 new SpritePackEntry(b),
             };
 
-            this.Sheet = SpriteSheet.Pack(entries, SmallSettings(maxSize: 8, padding: 0, forcePowerOfTwo: false));
+            PackSuccessfully(entries, SmallSettings(maxSize: 8, padding: 0, forcePowerOfTwo: false));
 
             Assert.AreEqual(2, this.Sheet.PageCount);
             Assert.AreEqual(2, this.Sheet.Slices.Count);
@@ -173,8 +174,8 @@ namespace kknngggg.Unity.Sprites.Tests
         {
             Texture2D a = CreateTexture(4, 4, "a");
             Texture2D b = CreateTexture(4, 4, "b");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(a), new SpritePackEntry(b) },
-                                          SmallSettings(maxSize: 64, padding: 1, forcePowerOfTwo: false));
+            PackSuccessfully(new[] { new SpritePackEntry(a), new SpritePackEntry(b) },
+                            SmallSettings(maxSize: 64, padding: 1, forcePowerOfTwo: false));
 
             Assert.AreEqual(1, this.Sheet.PageCount);
             SpriteSheet.SliceInfo sliceA = this.Sheet.Slices["a"];
@@ -188,7 +189,7 @@ namespace kknngggg.Unity.Sprites.Tests
         public void Dispose_ThenQueriesThrow()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, SmallSettings());
+            PackSuccessfully(new[] { new SpritePackEntry(texture) }, SmallSettings());
             this.Sheet.GetSprite("icon");
             this.Sheet.Dispose();
 
@@ -203,42 +204,42 @@ namespace kknngggg.Unity.Sprites.Tests
         public void Dispose_Twice_DoesNotThrow()
         {
             Texture2D texture = CreateTexture(4, 4, "icon");
-            this.Sheet = SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, SmallSettings());
+            PackSuccessfully(new[] { new SpritePackEntry(texture) }, SmallSettings());
 
             this.Sheet.Dispose();
             Assert.DoesNotThrow(() => this.Sheet.Dispose());
         }
 
         [Test]
-        public void Pack_NullEntries_Throws()
+        public void Pack_NullEntries_Fails()
         {
-            Assert.Throws<ArgumentNullException>(() => SpriteSheet.Pack(null, SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(null, SmallSettings()), PackingErrorCodes.NULL_ENTRIES);
         }
 
         [Test]
-        public void Pack_EmptyEntries_Throws()
+        public void Pack_EmptyEntries_Fails()
         {
-            Assert.Throws<InvalidOperationException>(
-                () => SpriteSheet.Pack(new SpritePackEntry[0], SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(new SpritePackEntry[0], SmallSettings()),
+                             PackingErrorCodes.EMPTY_ENTRIES);
         }
 
         [Test]
-        public void Pack_NullTexture_Throws()
+        public void Pack_NullTexture_Fails()
         {
             SpritePackEntry[] entries = { new SpritePackEntry(null, "ghost") };
-            Assert.Throws<ArgumentException>(() => SpriteSheet.Pack(entries, SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(entries, SmallSettings()), PackingErrorCodes.NULL_TEXTURE);
         }
 
         [Test]
-        public void Pack_EmptyName_Throws()
+        public void Pack_EmptyName_Fails()
         {
             Texture2D texture = CreateTexture(4, 4, "file");
             SpritePackEntry[] entries = { new SpritePackEntry(texture, "") };
-            Assert.Throws<ArgumentException>(() => SpriteSheet.Pack(entries, SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(entries, SmallSettings()), PackingErrorCodes.EMPTY_NAME);
         }
 
         [Test]
-        public void Pack_DuplicateName_Throws()
+        public void Pack_DuplicateName_Fails()
         {
             Texture2D a = CreateTexture(4, 4, "a");
             Texture2D b = CreateTexture(4, 4, "b");
@@ -246,65 +247,65 @@ namespace kknngggg.Unity.Sprites.Tests
                 new SpritePackEntry(a, "same"),
                 new SpritePackEntry(b, "same"),
             };
-            Assert.Throws<ArgumentException>(() => SpriteSheet.Pack(entries, SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(entries, SmallSettings()), PackingErrorCodes.DUPLICATE_NAME);
         }
 
         [Test]
-        public void Pack_NonReadableTexture_Throws()
+        public void Pack_NonReadableTexture_Fails()
         {
             Texture2D texture = CreateTexture(4, 4, "locked");
             texture.Apply(false, true);
             SpritePackEntry[] entries = { new SpritePackEntry(texture) };
-            Assert.Throws<ArgumentException>(() => SpriteSheet.Pack(entries, SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(entries, SmallSettings()), PackingErrorCodes.TEXTURE_NOT_READABLE);
         }
 
         [Test]
-        public void Pack_PixelsPerUnitNotPositive_Throws()
+        public void Pack_PixelsPerUnitNotPositive_Fails()
         {
             Texture2D texture = CreateTexture(4, 4, "ppu");
             SpritePackEntry[] entries = {
                 new SpritePackEntry(texture, "ppu", 0f, SpritePackEntry.DEFAULT_PIVOT, SpriteMeshType.FullRect),
             };
-            Assert.Throws<ArgumentOutOfRangeException>(() => SpriteSheet.Pack(entries, SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(entries, SmallSettings()), PackingErrorCodes.INVALID_PIXELS_PER_UNIT);
         }
 
         [Test]
-        public void Pack_NegativePixelsPerUnit_Throws()
+        public void Pack_NegativePixelsPerUnit_Fails()
         {
             Texture2D texture = CreateTexture(4, 4, "ppu");
             SpritePackEntry[] entries = {
                 new SpritePackEntry(texture, "ppu", -1f, SpritePackEntry.DEFAULT_PIVOT, SpriteMeshType.FullRect),
             };
-            Assert.Throws<ArgumentOutOfRangeException>(() => SpriteSheet.Pack(entries, SmallSettings()));
+            AssertPackFailed(SpriteSheet.Pack(entries, SmallSettings()), PackingErrorCodes.INVALID_PIXELS_PER_UNIT);
         }
 
         [Test]
-        public void Pack_TextureLargerThanMaxSize_Throws()
+        public void Pack_TextureLargerThanMaxSize_Fails()
         {
             Texture2D texture = CreateTexture(16, 8, "big");
             SpritePackEntry[] entries = { new SpritePackEntry(texture) };
-            Assert.Throws<ArgumentException>(
-                () => SpriteSheet.Pack(entries, SmallSettings(maxSize: 8, padding: 0)));
+            AssertPackFailed(SpriteSheet.Pack(entries, SmallSettings(maxSize: 8, padding: 0)),
+                             PackingErrorCodes.TEXTURE_EXCEEDS_MAX_SIZE);
         }
 
         [Test]
-        public void Pack_NegativePadding_Throws()
+        public void Pack_NegativePadding_Fails()
         {
             Texture2D texture = CreateTexture(4, 4, "pad");
             SpriteSheet.PackingSettings settings = SmallSettings();
             settings.Padding = -1;
-            Assert.Throws<ArgumentOutOfRangeException>(
-                () => SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, settings));
+            AssertPackFailed(SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, settings),
+                             PackingErrorCodes.INVALID_PADDING);
         }
 
         [Test]
-        public void Pack_InvalidMaxSize_Throws()
+        public void Pack_InvalidMaxSize_Fails()
         {
             Texture2D texture = CreateTexture(4, 4, "max");
             SpriteSheet.PackingSettings settings = SmallSettings();
             settings.MaxSize = 0;
-            Assert.Throws<ArgumentOutOfRangeException>(
-                () => SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, settings));
+            AssertPackFailed(SpriteSheet.Pack(new[] { new SpritePackEntry(texture) }, settings),
+                             PackingErrorCodes.INVALID_MAX_SIZE);
         }
 
         [Test]

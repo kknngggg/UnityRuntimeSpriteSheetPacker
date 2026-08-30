@@ -1,4 +1,4 @@
-using System;
+using kknngggg.Unity.Sprites.Errors;
 using NUnit.Framework;
 
 namespace kknngggg.Unity.Sprites.Tests
@@ -24,11 +24,11 @@ namespace kknngggg.Unity.Sprites.Tests
                 ForcePowerOfTwo = false,
             };
 
-            Assert.DoesNotThrow(settings.Validate);
+            Assert.That(settings.Validate() == PackingError.None);
         }
 
         [Test]
-        public void Validate_NegativePadding_Throws()
+        public void Validate_NegativePadding_ReturnsInvalidPadding()
         {
             SpriteSheet.PackingSettings settings = new SpriteSheet.PackingSettings {
                 Padding = -1,
@@ -36,13 +36,13 @@ namespace kknngggg.Unity.Sprites.Tests
                 ForcePowerOfTwo = true,
             };
 
-            ArgumentOutOfRangeException exception =
-                Assert.Throws<ArgumentOutOfRangeException>(settings.Validate);
-            Assert.AreEqual("Padding", exception.ParamName);
+            PackingError error = settings.Validate();
+            Assert.IsNotNull(error);
+            Assert.AreEqual(PackingErrorCodes.INVALID_PADDING, error.Code);
         }
 
         [Test]
-        public void Validate_MaxSizeBelowOne_Throws()
+        public void Validate_MaxSizeBelowOne_ReturnsInvalidMaxSize()
         {
             SpriteSheet.PackingSettings settings = new SpriteSheet.PackingSettings {
                 Padding = 0,
@@ -50,9 +50,9 @@ namespace kknngggg.Unity.Sprites.Tests
                 ForcePowerOfTwo = true,
             };
 
-            ArgumentOutOfRangeException exception =
-                Assert.Throws<ArgumentOutOfRangeException>(settings.Validate);
-            Assert.AreEqual("MaxSize", exception.ParamName);
+            PackingError error = settings.Validate();
+            Assert.IsNotNull(error);
+            Assert.AreEqual(PackingErrorCodes.INVALID_MAX_SIZE, error.Code);
         }
 
         [Test]
