@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using kknngggg.Unity.Sprites.Demos.SpriteSheets.IO;
+using kknngggg.Unity.Sprites.Errors;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,6 +21,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private VisualElement _packingSettingsPanelView;
         private VisualElement _packedTexturePreviewView;
         private DropdownField _texturePageDropdown;
+        private Label _errorMessageBody;
 
         private Button _addEntryButton;
         private Button _previousPageButton;
@@ -27,6 +29,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private Button _packThisSheetButton;
         private Button _saveTexturePageButton;
         private Button _saveSpriteSheetButton;
+        private VisualElement _errorMessagePanel;
+        private Button _errorMessageCloseButton;
 
         private SpritePackEntryListViewController _spritePackEntryListViewController;
 
@@ -63,6 +67,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._packThisSheetButton.clicked += OnPackThisSheetButtonClicked;
             this._saveTexturePageButton.clicked += OnSaveTexturePageButtonClicked;
             this._saveSpriteSheetButton.clicked += OnSaveSpriteSheetButtonClicked;
+            this._errorMessageCloseButton.clicked += OnErrorMessageCloseButtonClicked;
         }
 
         private void Start()
@@ -89,6 +94,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._packThisSheetButton.clicked -= OnPackThisSheetButtonClicked;
             this._saveTexturePageButton.clicked -= OnSaveTexturePageButtonClicked;
             this._saveSpriteSheetButton.clicked -= OnSaveSpriteSheetButtonClicked;
+            this._errorMessageCloseButton.clicked -= OnErrorMessageCloseButtonClicked;
         }
 
         private static IFileBrowser CreateFileBrowser()
@@ -119,6 +125,11 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._packThisSheetButton = root.Q<Button>("PackThisSheetButton");
             this._saveTexturePageButton = root.Q<Button>("SaveTexturePageButton");
             this._saveSpriteSheetButton = root.Q<Button>("SaveSpriteSheetButton");
+
+            this._errorMessagePanel = root.Q<VisualElement>("ErrorMessagePanel");
+            this._errorMessageCloseButton = this._errorMessagePanel.Q<Button>("CloseButton");
+            this._errorMessageBody = this._errorMessagePanel.Q<Label>("ErrorMessageBody");
+            HideErrorMessagePanel();
         }
 
         private void SetupForcePowerOfTwoToggle()
@@ -246,17 +257,44 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             if (entries is not { Count: > 0 })
             {
                 this._packingCoroutine = null;
+                PackingError packingError = new PackingError(-9999, "Failed to fetch entry textures.");
+                ShowPackingError(packingError);
                 yield break;
             }
 
-            SpriteSheet spriteSheet = SpriteSheet.Pack(entries,
-                                                       this._packingSettingsPanelViewDataSource.PackingSettings,
-                                                       this._packingSettingsPanelViewDataSource.PageName);
+            PackingResult packingResult = SpriteSheet.Pack(entries,
+                                                           this._packingSettingsPanelViewDataSource.PackingSettings,
+                                                           this._packingSettingsPanelViewDataSource.PageName);
 
-            this._packedTexturePreviewViewDataSource.UpdatePreview(spriteSheet);
+            if (packingResult.IsSuccess)
+            {
+                HideErrorMessagePanel();
+                this._packedTexturePreviewViewDataSource.UpdatePreview(packingResult.SpriteSheet);
+            }
+            else
+            {
+                ShowPackingError(packingResult.Error);
+            }
 
             this._spritePackEntryListViewController.ReleaseLoadedTextures();
             this._packingCoroutine = null;
+        }
+
+        private void OnErrorMessageCloseButtonClicked()
+        {
+            HideErrorMessagePanel();
+        }
+
+        private void ShowPackingError(PackingError error)
+        {
+            this._errorMessageBody.text = error.Message ?? $"ErrorCode: {error.Code}";
+            this._errorMessagePanel.style.display = DisplayStyle.Flex;
+            this._errorMessageCloseButton.BringToFront();
+        }
+
+        private void HideErrorMessagePanel()
+        {
+            this._errorMessagePanel.style.display = DisplayStyle.None;
         }
     }
 }

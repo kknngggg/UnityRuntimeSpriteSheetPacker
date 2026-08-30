@@ -1,6 +1,7 @@
 :root {
     /* 60% Dominant — dark neutrals (canvas, cards, fields, body text, mute actions) */
     --color-bg: rgb(36, 35, 40);
+    --color-bg--overlay: rgba(36, 35, 40, 0.5);
     --color-surface: rgb(46, 46, 51);
     --color-surface-inset: rgb(41, 40, 45);
     --color-surface-hover: rgb(70, 70, 78);

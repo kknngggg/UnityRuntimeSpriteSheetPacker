@@ -99,4 +99,13 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement name="ErrorMessagePanel" class="error-message-panel">
+        <ui:VisualElement name="Container" class="error-message-panel__container">
+            <ui:Button name="CloseButton" text="" selectable="true" class="error-message-panel__close-button">
+                <ui:Image name="CloseButtonImage" source="project://database/Assets/Demos/SpriteSheets/Sprites/close-button.png?fileID=-1767236481665604827&amp;guid=13272b68aa59840cea1770c0f5ba8b76&amp;type=3#close-button_0" class="error-message-panel__close-button-image"/>
+            </ui:Button>
+            <ui:Label text="Packing Failure!" name="ErrorTitle" enable-rich-text="false" emoji-fallback-support="false" class="error-message-panel__title"/>
+            <ui:Label text="Label" name="ErrorMessageBody" enable-rich-text="false" emoji-fallback-support="false" class="error-message-panel__message-body"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

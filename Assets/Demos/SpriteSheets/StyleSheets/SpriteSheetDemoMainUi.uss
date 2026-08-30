@@ -1,6 +1,18 @@
 @import url("project://database/Assets/Demos/SpriteSheets/StyleSheets/SpriteSheetDemoTheme.uss?fileID=7433441132597879392&guid=0dcfca4d7f194254bea45f42e7c2cba7&type=3#SpriteSheetDemoTheme");
 
-#SpriteSheetDemoPanel,
+#SpriteSheetDemoPanel {
+    background-color: var(--color-bg);
+}
+
+#SpritePackEntryList {
+    background-color: var(--color-bg);
+}
+
+#SpritePackEntryList {
+    background-color: var(--color-bg);
+}
+
+#SpritePackEntryList,
 #SpritePackEntryList {
     background-color: var(--color-bg);
 }
@@ -79,7 +91,22 @@
     margin-left: 4px;
 }
 
-.packing-settings__input--toggle,
+.packing-settings__input--toggle {
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.packing-settings__input--toggle > .unity-toggle__input {
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.packing-settings__input--toggle > .unity-toggle__input {
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.packing-settings__input--toggle > .unity-toggle__input,
 .packing-settings__input--toggle > .unity-toggle__input {
     height: 100%;
     aspect-ratio: 1;
@@ -230,29 +257,315 @@
     background-color: var(--color-surface-active);
 }
 
-.sheet-entries__add-button:focus,
+.sheet-entries__add-button:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.pack-this-sheet-button:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.pack-this-sheet-button:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
 .pack-this-sheet-button:focus,
+.pack-this-sheet-button:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.packed-texture-preview__save-button:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.packed-texture-preview__save-button:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
 .packed-texture-preview__save-button:focus,
+.packed-texture-preview__save-button:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.paginaton-controls__btn:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.paginaton-controls__btn:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
 .paginaton-controls__btn:focus,
+.paginaton-controls__btn:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.paginaton-controls__dropdown:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.paginaton-controls__dropdown:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
 .paginaton-controls__dropdown:focus,
+.paginaton-controls__dropdown:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.paginaton-controls__dropdown:focus > .unity-base-field__input {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.paginaton-controls__dropdown:focus > .unity-base-field__input {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
 .paginaton-controls__dropdown:focus > .unity-base-field__input,
+.paginaton-controls__dropdown:focus > .unity-base-field__input {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
 .paginaton-controls__dropdown > .unity-base-field__input:focus {
     border-color: var(--color-secondary-focus);
     border-width: 2px;
 }
 
-.sheet-entries__add-button,
+.paginaton-controls__dropdown > .unity-base-field__input:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.paginaton-controls__dropdown > .unity-base-field__input:focus,
+.paginaton-controls__dropdown > .unity-base-field__input:focus {
+    border-color: var(--color-secondary-focus);
+    border-width: 2px;
+}
+
+.sheet-entries__add-button {
+    transition-duration: 0.1s;
+}
+
+.pack-this-sheet-button {
+    transition-duration: 0.1s;
+}
+
+.pack-this-sheet-button {
+    transition-duration: 0.1s;
+}
+
 .pack-this-sheet-button,
+.pack-this-sheet-button {
+    transition-duration: 0.1s;
+}
+
+.packed-texture-preview__save-button {
+    transition-duration: 0.1s;
+}
+
+.packed-texture-preview__save-button {
+    transition-duration: 0.1s;
+}
+
 .packed-texture-preview__save-button,
+.packed-texture-preview__save-button {
+    transition-duration: 0.1s;
+}
+
+.paginaton-controls__btn {
+    transition-duration: 0.1s;
+}
+
+.paginaton-controls__btn {
+    transition-duration: 0.1s;
+}
+
 .paginaton-controls__btn,
+.paginaton-controls__btn {
+    transition-duration: 0.1s;
+}
+
+.paginaton-controls__dropdown {
+    transition-duration: 0.1s;
+}
+
+.paginaton-controls__dropdown {
+    transition-duration: 0.1s;
+}
+
 .paginaton-controls__dropdown,
+.paginaton-controls__dropdown {
+    transition-duration: 0.1s;
+}
+
 .packing-settings__input--field > .unity-base-field__input {
     transition-duration: 0.1s;
 }
 
-.packing-settings__input--field:active > .unity-base-field__input,
+.packing-settings__input--field > .unity-base-field__input {
+    transition-duration: 0.1s;
+}
+
+.packing-settings__input--field > .unity-base-field__input,
+.packing-settings__input--field > .unity-base-field__input {
+    transition-duration: 0.1s;
+}
+
+.packing-settings__input--field:active > .unity-base-field__input {
+    border-left-width: 10px;
+    border-left-color: var(--color-accent-bright);
+}
+
+.packing-settings__input--field:focus > .unity-base-field__input {
+    border-left-width: 10px;
+    border-left-color: var(--color-accent-bright);
+}
+
+.packing-settings__input--field:focus > .unity-base-field__input {
+    border-left-width: 10px;
+    border-left-color: var(--color-accent-bright);
+}
+
 .packing-settings__input--field:focus > .unity-base-field__input,
+.packing-settings__input--field:focus > .unity-base-field__input {
+    border-left-width: 10px;
+    border-left-color: var(--color-accent-bright);
+}
+
 .packing-settings__input--field > .unity-base-field__input:focus {
     border-left-width: 10px;
     border-left-color: var(--color-accent-bright);
+}
+
+.packing-settings__input--field > .unity-base-field__input:focus {
+    border-left-width: 10px;
+    border-left-color: var(--color-accent-bright);
+}
+
+.packing-settings__input--field > .unity-base-field__input:focus,
+.packing-settings__input--field > .unity-base-field__input:focus {
+    border-left-width: 10px;
+    border-left-color: var(--color-accent-bright);
+}
+
+.error-message-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-bg--overlay);
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    align-content: center;
+    align-items: center;
+}
+
+.error-message-panel__container {
+    height: 30%;
+    position: absolute;
+    width: 35%;
+    background-color: var(--color-surface);
+    border-radius: 5px;
+    border-width: 3px;
+    border-color: rgb(180, 35, 35);
+}
+
+.error-message-panel__close-button {
+    height: 10%;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: var(--color-text);
+    background-color: var(--color-text);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.error-message-panel__close-button:active,
+.error-message-panel__close-button:active > .error-message-panel__close-button-image{
+    scale: 0.95 0.95;
+}
+
+.error-message-panel__close-button,
+.error-message-panel__close-button-image {
+    transition-duration: 0.1s;
+}
+
+.error-message-panel__close-button-image {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    bottom: 0;
+    left: 50%;
+    width: 110%;
+    height: 110%;
+    translate: -50% -50%;
+}
+
+.error-message-panel__title {
+    max-height: 15%;
+    min-height: 15%;
+    min-width: 100%;
+    max-width: 100%;
+    font-size: 18px;
+    -unity-font-style: bold;
+    padding-top: 10px;
+    padding-right: 48px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    -unity-text-align: lower-left;
+    color: var(--color-text);
+    picking-mode: ignore;
+}
+
+.error-message-panel__message-body {
+    flex-grow: 1;
+    flex-shrink: 0;
+    max-width: 100%;
+    max-height: 80%;
+    padding-top: 0;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    -unity-text-align: middle-center;
+    font-size: 16px;
+    color: var(--color-text);
+    picking-mode: ignore;
 }
