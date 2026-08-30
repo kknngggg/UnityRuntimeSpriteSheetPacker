@@ -52,7 +52,9 @@
         </ui:VisualElement>
         <ui:VisualElement name="VerticalDivider" style="width: 18px; height: 100%; flex-shrink: 0;"/>
         <ui:VisualElement name="PackedTexturePreviewPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackedTexturePreviewViewDataSource, kknngggg.RuntimeSpriteSheetPacker.Demos.SpriteSheets" style="flex-shrink: 0; left: 0%;">
-            <ui:Label text="Packed Texture Preview" name="PackedTexturePreviewPanel__title-label" enable-rich-text="false" class="panel-title" style="-unity-text-generator: advanced;"/>
+            <ui:VisualElement name="PackedTexturePreviewPanel__header" class="panel-title" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Packed Texture Preview" name="PackedTexturePreviewPanel__title-label" enable-rich-text="false" style="-unity-text-generator: advanced; flex-grow: 1; min-width: 0;"/>
+            </ui:VisualElement>
             <ui:VisualElement name="paginaton-controls" class="paginaton-controls" style="width: auto; height: 64px; flex-direction: row; padding-top: 5px; padding-bottom: 5px; padding-right: 5px; padding-left: 5px; align-content: center; flex-basis: auto; flex-shrink: 0;">
                 <ui:Button name="paginaton-controls__previous-button" enabled="false" class="paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
                     <ui:Image name="Image" source="project://database/Assets/Demos/SpriteSheets/Sprites/btn_arrow_next.png?fileID=-6481690848929482010&amp;guid=7a43eae7ab92349adb32eb89383538dd&amp;type=3#btn_arrow_next_0" style="rotate: 180deg;"/>
@@ -83,6 +85,18 @@
                     <ui:DataBinding property="text" data-source-path="SelectedTexturePageInfo" binding-mode="ToTarget"/>
                 </Bindings>
             </ui:Label>
+            <ui:VisualElement style="flex-grow: 0; flex-direction: row; justify-content: space-around;">
+                <ui:Button text="Save Current Page" name="SaveTexturePageButton" enabled="false" class="packed-texture-preview__save-button">
+                    <Bindings>
+                        <ui:DataBinding property="enabledSelf" data-source-path="SavePageButtonEnabled" binding-mode="ToTarget"/>
+                    </Bindings>
+                </ui:Button>
+                <ui:Button text="Save as SpriteSheet" name="SaveSpriteSheetButton" enabled="false" class="packed-texture-preview__save-button">
+                    <Bindings>
+                        <ui:DataBinding property="enabledSelf" data-source-path="SaveSheetButtonEnabled" binding-mode="ToTarget"/>
+                    </Bindings>
+                </ui:Button>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

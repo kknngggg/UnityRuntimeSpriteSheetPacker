@@ -107,7 +107,7 @@ namespace kknngggg.Unity.Sprites
             this._pages.Clear();
         }
 
-        private static void DestroyUnityObject(Object obj)
+        internal static void DestroyUnityObject(Object obj)
         {
 #if UNITY_EDITOR
             if (Application.isPlaying == false)

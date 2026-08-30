@@ -25,6 +25,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private Button _previousPageButton;
         private Button _nextPageButton;
         private Button _packThisSheetButton;
+        private Button _saveTexturePageButton;
+        private Button _saveSpriteSheetButton;
 
         private SpritePackEntryListViewController _spritePackEntryListViewController;
 
@@ -59,6 +61,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._previousPageButton.clicked += OnPreviousPageButtonClicked;
             this._nextPageButton.clicked += OnNextPageButtonClicked;
             this._packThisSheetButton.clicked += OnPackThisSheetButtonClicked;
+            this._saveTexturePageButton.clicked += OnSaveTexturePageButtonClicked;
+            this._saveSpriteSheetButton.clicked += OnSaveSpriteSheetButtonClicked;
         }
 
         private void Start()
@@ -83,6 +87,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._previousPageButton.clicked -= OnPreviousPageButtonClicked;
             this._nextPageButton.clicked -= OnNextPageButtonClicked;
             this._packThisSheetButton.clicked -= OnPackThisSheetButtonClicked;
+            this._saveTexturePageButton.clicked -= OnSaveTexturePageButtonClicked;
+            this._saveSpriteSheetButton.clicked -= OnSaveSpriteSheetButtonClicked;
         }
 
         private static IFileBrowser CreateFileBrowser()
@@ -111,6 +117,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._previousPageButton = root.Q<Button>("paginaton-controls__previous-button");
             this._nextPageButton = root.Q<Button>("paginaton-controls__next-button");
             this._packThisSheetButton = root.Q<Button>("PackThisSheetButton");
+            this._saveTexturePageButton = root.Q<Button>("SaveTexturePageButton");
+            this._saveSpriteSheetButton = root.Q<Button>("SaveSpriteSheetButton");
         }
 
         private void SetupForcePowerOfTwoToggle()
@@ -162,6 +170,71 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private void OnPackThisSheetButtonClicked()
         {
             this._packingCoroutine ??= StartCoroutine(PackingCoroutine());
+        }
+
+        private void OnSaveTexturePageButtonClicked()
+        {
+            Texture2D page = this._packedTexturePreviewViewDataSource.SelectedTexturePage;
+
+            if (page == null)
+            {
+                return;
+            }
+
+            byte[] png = EncodeTexturePageToPng(page);
+
+            if (png is not { Length: > 0 })
+            {
+                Debug.LogError($"[{nameof(SpriteSheetsDemoUiController)}] Failed to encode '{page.name}' to PNG.");
+                return;
+            }
+
+            this._fileBrowser.SaveFile(page.name, png, "png");
+        }
+
+        private void OnSaveSpriteSheetButtonClicked()
+        {
+            if (this._packedTexturePreviewViewDataSource.TrySerializeSheet(out byte[] data) == false)
+            {
+                return;
+            }
+
+            string fileName = this._packingSettingsPanelViewDataSource.PageName;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = "spritesheet";
+            }
+
+            this._fileBrowser.SaveFile(fileName, data, SpriteSheetFile.FILE_EXTENSION);
+        }
+
+        private static byte[] EncodeTexturePageToPng(Texture2D source)
+        {
+            if (source.isReadable)
+            {
+                return source.EncodeToPNG();
+            }
+
+            RenderTexture renderTexture = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.ARGB32);
+            Graphics.Blit(source, renderTexture);
+
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = renderTexture;
+
+            Texture2D readable = new Texture2D(source.width, source.height, TextureFormat.ARGB32, false);
+
+            try
+            {
+                readable.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
+                readable.Apply(false, false);
+                return readable.EncodeToPNG();
+            }
+            finally
+            {
+                RenderTexture.active = previous;
+                RenderTexture.ReleaseTemporary(renderTexture);
+                Destroy(readable);
+            }
         }
 
         private IEnumerator PackingCoroutine()

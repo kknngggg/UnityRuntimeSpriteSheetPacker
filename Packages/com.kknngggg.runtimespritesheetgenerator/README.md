@@ -21,6 +21,7 @@ See [Install packages](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-
 ## Features
 
 - `SpriteSheet.Pack(IEnumerable<SpritePackEntry>, PackingSettings)` — name, pixels per unit, pivot, and mesh type come from each entry
+- `SpriteSheet.ToBytes()` / `Load(byte[])` — round-trip a packed sheet as `.spritesheet` binary blocks
 - Multi-page sheets when content exceeds `PackingSettings.MaxSize`
 - `GetSprite(name)`, `TryGetSlice(name)`, `GetPage(index)`, `IDisposable`
 - Settings: `Padding`, `MaxSize` (default 2048), `ForcePowerOfTwo` (default true), `EffectiveMaxSize`

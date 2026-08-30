@@ -77,6 +77,8 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 | Member | Description |
 |---|---|
 | `Pack(IEnumerable<SpritePackEntry>, PackingSettings, string texturePageName = null)` | Pack entries. Empty name falls back to `texture.name`. Slice PPU, pivot, and mesh type come from the entry. Optional `texturePageName` prefixes page texture names (`{name}_{pageIndex}`); default is a GUID. |
+| `ToBytes()` | Serialize the packed sheet to a `.spritesheet` byte array (binary blocks). Unreadable page textures are captured with a GPU readback, then stored as PNG. |
+| `Load(byte[] data)` | Rebuild pages and slices from `ToBytes()` output. Disk I/O is not in this package; write and read the bytes yourself. |
 | `PageCount` | Number of atlas `Texture2D` pages. |
 | `GetPage(int pageIndex)` | Page texture. Throws if disposed or out of range. |
 | `GetSprite(string spriteName)` | Creates and caches a `Sprite` using that slice’s PPU, pivot, and mesh type. Returns `null` if the name is missing. |
@@ -85,6 +87,46 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 | `Dispose()` | Destroys cached sprites and page textures. Further use throws `ObjectDisposedException`. |
 
 `GetSprite` is lazy: the `Sprite` is created on first request and reused.
+
+## Save and load `.spritesheet` files
+
+A `.spritesheet` file is little-endian binary blocks. Packed pages, page names, and every `SliceInfo` round-trip. Packing settings are not stored; they only affect `Pack`.
+
+Header:
+
+- Magic `SPSH` (4 ASCII bytes)
+- Version `uint32` (`1`)
+
+Each block:
+
+- FourCC (4 ASCII bytes)
+- `payloadSize` (`uint32`)
+- payload
+- zero pad to a 4-byte boundary
+
+| FourCC | Payload |
+|---|---|
+| `HEAD` | `pageCount` (`int32`), `sliceCount` (`int32`). Must be the first block. Extra bytes are ignored. |
+| `PAGE` | UTF-8 name (`int32` byte length + bytes), `width` (`int32`), `height` (`int32`), PNG (`int32` byte length + bytes). One block per page, in page-index order. |
+| `SLCE` | UTF-8 name, rect `x y width height` (`float32` × 4), `page` (`int32`), `pixelsPerUnit` (`float32`), pivot `x y` (`float32`), `meshType` (`int32`). |
+
+Unknown FourCC blocks are skipped. Extra trailing bytes inside `HEAD` / `PAGE` / `SLCE` are ignored so newer writers can extend a block.
+
+`Load` rebuilds GPU-only page textures (`isReadable` is false), matching `Pack`.
+
+```csharp
+using System.IO;
+using kknngggg.Unity.Sprites;
+
+byte[] data = sheet.ToBytes();
+File.WriteAllBytes("Hero.spritesheet", data);
+
+SpriteSheet loaded = SpriteSheet.Load(File.ReadAllBytes("Hero.spritesheet"));
+Sprite sprite = loaded.GetSprite("hero");
+loaded.Dispose();
+```
+
+`Load` throws `InvalidDataException` if the magic, version, block layout, PNG, or slice page index is invalid. `Load(null)` throws `ArgumentNullException`.
 
 ## Validation errors
 
@@ -118,3 +160,4 @@ Runtime SpriteSheet Generator version 0.1.0 includes the following known limitat
 |---|---|
 | Aug 13, 2026 | Document created. |
 | Aug 29, 2026 | Document `texturePageName` and `EffectiveMaxSize`. |
+| Aug 30, 2026 | Document `.spritesheet` `ToBytes` / `Load(byte[])`. Path I/O stays outside the package. |

@@ -30,17 +30,35 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         [CreateProperty] public bool NextButtonEnabled => this._spriteSheet != null && this._selectedTexturePageIndex < this._spriteSheet.PageCount - 1;
 
+        [CreateProperty] public bool SavePageButtonEnabled => GetSelectedTexture() != null;
+
+        [CreateProperty] public bool SaveSheetButtonEnabled => this._spriteSheet != null;
+
         public void UpdatePreview(SpriteSheet spriteSheet)
         {
             this._spriteSheet?.Dispose();
             this._spriteSheet = spriteSheet;
 
             Notify(nameof(this.PageDropdownChoices));
+            Notify(nameof(this.SaveSheetButtonEnabled));
 
             // set to -1 first so the SelectedTexturePageIndex setter
             // actually changes the value -1 → 0 and triggers Notify
             this._selectedTexturePageIndex = -1;
             this.SelectedTexturePageIndex = 0;
+        }
+
+        public bool TrySerializeSheet(out byte[] data)
+        {
+            data = null;
+
+            if (this._spriteSheet == null)
+            {
+                return false;
+            }
+
+            data = this._spriteSheet.ToBytes();
+            return data is { Length: > 0 };
         }
 
         private void SetSelectedTexturePageIndex(int index)
@@ -57,6 +75,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             Notify(nameof(this.SelectedTexturePageInfo));
             Notify(nameof(this.PreviousButtonEnabled));
             Notify(nameof(this.NextButtonEnabled));
+            Notify(nameof(this.SavePageButtonEnabled));
+            Notify(nameof(this.SaveSheetButtonEnabled));
             Publish();
         }
 
