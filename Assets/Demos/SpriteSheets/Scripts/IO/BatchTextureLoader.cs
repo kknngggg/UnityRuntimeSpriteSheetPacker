@@ -82,7 +82,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets.IO
                 yield break;
             }
 
-            if (TryGetFileUri(path, out string fileUri) == false)
+            if (path.TryGetFileUri(out string fileUri) == false)
             {
                 onFail?.Invoke(index, $"[BatchTextureLoader] Invalid file URI: {path}");
                 yield break;
@@ -116,37 +116,6 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets.IO
             }
 
             onComplete?.Invoke(index, texture);
-        }
-
-        private static bool TryGetFileUri(string path, out string fileUri)
-        {
-            fileUri = null;
-
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return false;
-            }
-
-            try
-            {
-                fileUri = FormatUri(path);
-                return string.IsNullOrEmpty(fileUri) == false;
-            }
-            catch (UriFormatException)
-            {
-                return false;
-            }
-        }
-
-        private static string FormatUri(string path)
-        {
-            if (path.StartsWith("blob:", StringComparison.OrdinalIgnoreCase)
-                || path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-            {
-                return path;
-            }
-
-            return new Uri(path).AbsoluteUri;
         }
     }
 }

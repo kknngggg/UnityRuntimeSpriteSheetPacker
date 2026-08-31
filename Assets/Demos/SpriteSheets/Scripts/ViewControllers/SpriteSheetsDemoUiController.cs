@@ -27,6 +27,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private Button _previousPageButton;
         private Button _nextPageButton;
         private Button _packThisSheetButton;
+        private Button _loadSpriteSheetButton;
         private Button _saveTexturePageButton;
         private Button _saveSpriteSheetButton;
         private VisualElement _errorMessagePanel;
@@ -65,6 +66,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._previousPageButton.clicked += OnPreviousPageButtonClicked;
             this._nextPageButton.clicked += OnNextPageButtonClicked;
             this._packThisSheetButton.clicked += OnPackThisSheetButtonClicked;
+            this._loadSpriteSheetButton.clicked += OnLoadSpriteSheetButtonClicked;
             this._saveTexturePageButton.clicked += OnSaveTexturePageButtonClicked;
             this._saveSpriteSheetButton.clicked += OnSaveSpriteSheetButtonClicked;
             this._errorMessageCloseButton.clicked += OnErrorMessageCloseButtonClicked;
@@ -92,6 +94,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._previousPageButton.clicked -= OnPreviousPageButtonClicked;
             this._nextPageButton.clicked -= OnNextPageButtonClicked;
             this._packThisSheetButton.clicked -= OnPackThisSheetButtonClicked;
+            this._loadSpriteSheetButton.clicked += OnLoadSpriteSheetButtonClicked;
             this._saveTexturePageButton.clicked -= OnSaveTexturePageButtonClicked;
             this._saveSpriteSheetButton.clicked -= OnSaveSpriteSheetButtonClicked;
             this._errorMessageCloseButton.clicked -= OnErrorMessageCloseButtonClicked;
@@ -123,6 +126,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._previousPageButton = root.Q<Button>("paginaton-controls__previous-button");
             this._nextPageButton = root.Q<Button>("paginaton-controls__next-button");
             this._packThisSheetButton = root.Q<Button>("PackThisSheetButton");
+            this._loadSpriteSheetButton = root.Q<Button>("LoadButton");
             this._saveTexturePageButton = root.Q<Button>("SaveTexturePageButton");
             this._saveSpriteSheetButton = root.Q<Button>("SaveSpriteSheetButton");
 
@@ -181,6 +185,28 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private void OnPackThisSheetButtonClicked()
         {
             this._packingCoroutine ??= StartCoroutine(PackingCoroutine());
+        }
+
+        private void OnLoadSpriteSheetButtonClicked()
+        {
+            SelectedFileInfo file = this._fileBrowser.SelectFile("spritesheet");
+
+            if (file == SelectedFileInfo.Null)
+            {
+                return;
+            }
+
+            StartCoroutine(LoadSpriteSheetAsync(file.FullPath));
+
+            return;
+
+            IEnumerator LoadSpriteSheetAsync(string path)
+            {
+                yield return SpriteSheetFile.LoadAsync(path, spriteSheet =>
+                {
+                    this._packedTexturePreviewViewDataSource.UpdatePreview(spriteSheet);
+                });
+            }
         }
 
         private void OnSaveTexturePageButtonClicked()

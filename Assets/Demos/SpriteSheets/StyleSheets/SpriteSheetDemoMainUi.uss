@@ -129,17 +129,17 @@
     background-color: var(--color-accent-bright);
 }
 
-.sheet-entries__add-button {
+.header-action-button {
     background-color: var(--color-secondary);
     border-width: 2px;
     border-color: var(--color-transparent);
 }
 
-.sheet-entries__add-button:hover:enabled {
+.header-action-button:hover:enabled {
     background-color: var(--color-secondary-hover);
 }
 
-.sheet-entries__add-button:active:enabled {
+.header-action-button:active:enabled {
     background-color: var(--color-secondary-active);
     scale: 0.97 0.97;
 }
@@ -257,7 +257,7 @@
     background-color: var(--color-surface-active);
 }
 
-.sheet-entries__add-button:focus {
+.header-action-button:focus {
     border-color: var(--color-secondary-focus);
     border-width: 2px;
 }
@@ -358,7 +358,7 @@
     border-width: 2px;
 }
 
-.sheet-entries__add-button {
+.header-action-button {
     transition-duration: 0.1s;
 }
 

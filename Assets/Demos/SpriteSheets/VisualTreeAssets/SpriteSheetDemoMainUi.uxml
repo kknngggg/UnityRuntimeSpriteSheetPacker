@@ -4,7 +4,7 @@
         <ui:VisualElement name="PackingSheetPanel" style="flex-grow: 1; flex-shrink: 1; min-width: 0;">
             <ui:VisualElement name="SheetEntriesHeader" class="panel-title" style="flex-direction: row; justify-content: space-between;">
                 <ui:Label text="Sheet Entries" name="SheetEntriesPanelTitle"/>
-                <ui:Button text="Add" name="AddEntryButton" class="sheet-entries__add-button"/>
+                <ui:Button text="Add" name="AddEntryButton" class="header-action-button"/>
             </ui:VisualElement>
             <ui:ListView selection-type="None" name="SpritePackEntryList" fixed-item-height="455" item-template="project://database/Assets/Demos/SpriteSheets/VisualTreeAssets/SpritePackEntry.uxml?fileID=9197481963319205126&amp;guid=51bcf2b406bb94cf58cb10e74e82f555&amp;type=3#SpritePackEntry" style="flex-shrink: 1; flex-grow: 1; min-width: 0; min-height: auto; max-height: none;"/>
             <ui:Label text="Packing Settings" name="PackingSettingsPanelTitle" class="panel-title"/>
@@ -54,6 +54,7 @@
         <ui:VisualElement name="PackedTexturePreviewPanel" data-source-type="kknngggg.Unity.Sprites.Demos.SpriteSheets.PackedTexturePreviewViewDataSource, kknngggg.RuntimeSpriteSheetPacker.Demos.SpriteSheets" style="flex-shrink: 0; left: 0%;">
             <ui:VisualElement name="PackedTexturePreviewPanel__header" class="panel-title" style="flex-direction: row; justify-content: space-between;">
                 <ui:Label text="Packed Texture Preview" name="PackedTexturePreviewPanel__title-label" enable-rich-text="false" style="-unity-text-generator: advanced; flex-grow: 1; min-width: 0;"/>
+                <ui:Button text="Load" name="LoadButton" class="header-action-button"/>
             </ui:VisualElement>
             <ui:VisualElement name="paginaton-controls" class="paginaton-controls" style="width: auto; height: 64px; flex-direction: row; padding-top: 5px; padding-bottom: 5px; padding-right: 5px; padding-left: 5px; align-content: center; flex-basis: auto; flex-shrink: 0;">
                 <ui:Button name="paginaton-controls__previous-button" enabled="false" class="paginaton-controls__btn" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
