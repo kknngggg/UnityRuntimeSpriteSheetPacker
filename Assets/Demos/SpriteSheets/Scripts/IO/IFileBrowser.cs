@@ -7,6 +7,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets.IO
     {
         SelectedFileInfo SelectFile(params string[] extensions);
 
+        SelectedFileInfo[] SelectFiles(params string[] extensions);
+
         void SaveFile(string fileName, ReadOnlySpan<byte> data, string fileExtension = "");
 
 #region NullObject
@@ -19,10 +21,22 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets.IO
         {
             public SelectedFileInfo SelectFile(params string[] extensions)
             {
-                Debug.LogError($"[{nameof(IFileBrowser)}] This platform does not have implementation for the {nameof(IFileBrowser)} interface.");
+                LogNotImplementedErrorMessage();
                 return SelectedFileInfo.Null;
             }
+
+            public SelectedFileInfo[] SelectFiles(params string[] extensions)
+            {
+                LogNotImplementedErrorMessage();
+                return Array.Empty<SelectedFileInfo>();
+            }
+
             public void SaveFile(string fileName, ReadOnlySpan<byte> data, string fileExtension = "")
+            {
+                LogNotImplementedErrorMessage();
+            }
+
+            private static void LogNotImplementedErrorMessage()
             {
                 Debug.LogError($"[{nameof(IFileBrowser)}] This platform does not have implementation for the {nameof(IFileBrowser)} interface.");
             }
