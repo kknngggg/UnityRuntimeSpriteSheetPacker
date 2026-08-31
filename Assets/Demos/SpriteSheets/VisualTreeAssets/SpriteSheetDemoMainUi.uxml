@@ -4,7 +4,11 @@
         <ui:VisualElement name="PackingSheetPanel" style="flex-grow: 1; flex-shrink: 1; min-width: 0;">
             <ui:VisualElement name="SheetEntriesHeader" class="panel-title" style="flex-direction: row; justify-content: space-between;">
                 <ui:Label text="Sheet Entries" name="SheetEntriesPanelTitle"/>
-                <ui:Button text="Add" name="AddEntryButton" class="header-action-button"/>
+                <ui:VisualElement name="SheetEntriesHeaderActions" style="flex-direction: row; align-items: stretch; flex-shrink: 0; height: 100%;">
+                    <ui:Button text="Add" name="AddEntryButton" class="header-action-button"/>
+                    <ui:Button text="Browse" name="BrowseEntriesButton" class="header-action-button"/>
+                    <ui:Button text="Clear" name="ClearEntriesButton" class="header-action-button"/>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:ListView selection-type="None" name="SpritePackEntryList" fixed-item-height="455" item-template="project://database/Assets/Demos/SpriteSheets/VisualTreeAssets/SpritePackEntry.uxml?fileID=9197481963319205126&amp;guid=51bcf2b406bb94cf58cb10e74e82f555&amp;type=3#SpritePackEntry" style="flex-shrink: 1; flex-grow: 1; min-width: 0; min-height: auto; max-height: none;"/>
             <ui:Label text="Packing Settings" name="PackingSettingsPanelTitle" class="panel-title"/>

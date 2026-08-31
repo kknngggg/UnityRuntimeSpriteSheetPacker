@@ -12,6 +12,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private const string ODD_ENTRY_CLASS_NAME = "sprite-pack-entry--odd";
         private const string EVEN_ENTRY_CLASS_NAME = "sprite-pack-entry--even";
 
+        private static readonly string[] ImageExtensions = { "jpg", "jpeg", "png", "webp", "heif" };
+
         private readonly ListView _listView;
         private readonly IFileBrowser _fileBrowser;
         private readonly List<SpritePackEntryViewDatasource> _spritePackEntryViewDataSources = new();
@@ -43,6 +45,47 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         public void OnAddEntryButtonClicked()
         {
             this._spritePackEntryViewDataSources.Add(new SpritePackEntryViewDatasource());
+            this._listView.RefreshItems();
+        }
+
+        public void OnBrowseEntriesButtonClicked()
+        {
+            SelectedFileInfo[] files = this._fileBrowser.SelectFiles(ImageExtensions);
+            if (files is not { Length: > 0 })
+            {
+                return;
+            }
+
+            bool added = false;
+            for (int i = 0; i < files.Length; i++)
+            {
+                string diskPath = files[i].FullPath;
+                if (string.IsNullOrWhiteSpace(diskPath))
+                {
+                    continue;
+                }
+
+                this._spritePackEntryViewDataSources.Add(new SpritePackEntryViewDatasource
+                {
+                    DiskPath = diskPath
+                });
+                added = true;
+            }
+
+            if (added)
+            {
+                this._listView.RefreshItems();
+            }
+        }
+
+        public void OnClearEntriesButtonClicked()
+        {
+            if (this._spritePackEntryViewDataSources.Count == 0)
+            {
+                return;
+            }
+
+            this._spritePackEntryViewDataSources.Clear();
             this._listView.RefreshItems();
         }
 
@@ -169,7 +212,7 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
                 return;
             }
 
-            SelectedFileInfo file = this._fileBrowser.SelectFile("jpg", "jpeg", "png", "webp", "heif");
+            SelectedFileInfo file = this._fileBrowser.SelectFile(ImageExtensions);
 
             if (file == SelectedFileInfo.Null)
             {

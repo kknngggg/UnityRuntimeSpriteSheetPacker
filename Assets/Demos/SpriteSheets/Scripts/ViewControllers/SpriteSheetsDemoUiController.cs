@@ -24,6 +24,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private Label _errorMessageBody;
 
         private Button _addEntryButton;
+        private Button _browseEntriesButton;
+        private Button _clearEntriesButton;
         private Button _previousPageButton;
         private Button _nextPageButton;
         private Button _packThisSheetButton;
@@ -63,6 +65,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         {
             this._texturePageDropdown.RegisterCallback<PointerDownEvent>(OnTexturePageDropdownClicked);
             this._addEntryButton.clicked += OnAddEntryButtonClicked;
+            this._browseEntriesButton.clicked += OnBrowseEntriesButtonClicked;
+            this._clearEntriesButton.clicked += OnClearEntriesButtonClicked;
             this._previousPageButton.clicked += OnPreviousPageButtonClicked;
             this._nextPageButton.clicked += OnNextPageButtonClicked;
             this._packThisSheetButton.clicked += OnPackThisSheetButtonClicked;
@@ -91,6 +95,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         {
             this._texturePageDropdown.UnregisterCallback<PointerDownEvent>(OnTexturePageDropdownClicked);
             this._addEntryButton.clicked -= OnAddEntryButtonClicked;
+            this._browseEntriesButton.clicked -= OnBrowseEntriesButtonClicked;
+            this._clearEntriesButton.clicked -= OnClearEntriesButtonClicked;
             this._previousPageButton.clicked -= OnPreviousPageButtonClicked;
             this._nextPageButton.clicked -= OnNextPageButtonClicked;
             this._packThisSheetButton.clicked -= OnPackThisSheetButtonClicked;
@@ -102,12 +108,10 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
 
         private static IFileBrowser CreateFileBrowser()
         {
-#if UNITY_EDITOR
-            return new UnityEditorFileBrowser();
-#elif UNITY_STANDALONE_WIN
-            return new StandaloneWindowsFileBrowser();
-#elif UNITY_STANDALONE_OSX
-            return new StandaloneMacFileBrowser();
+#if UNITY_EDITOR_WIN || (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
+            return new WindowsFileBrowser();
+#elif UNITY_EDITOR_OSX || (UNITY_STANDALONE_OSX && !UNITY_EDITOR)
+            return new MacFileBrowser();
 #else
             return IFileBrowser.Null;
 #endif
@@ -123,6 +127,8 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
             this._texturePageDropdown = root.Q<DropdownField>("paginaton-controls__page-dropdown");
 
             this._addEntryButton = root.Q<Button>("AddEntryButton");
+            this._browseEntriesButton = root.Q<Button>("BrowseEntriesButton");
+            this._clearEntriesButton = root.Q<Button>("ClearEntriesButton");
             this._previousPageButton = root.Q<Button>("paginaton-controls__previous-button");
             this._nextPageButton = root.Q<Button>("paginaton-controls__next-button");
             this._packThisSheetButton = root.Q<Button>("PackThisSheetButton");
@@ -170,6 +176,16 @@ namespace kknngggg.Unity.Sprites.Demos.SpriteSheets
         private void OnAddEntryButtonClicked()
         {
             this._spritePackEntryListViewController.OnAddEntryButtonClicked();
+        }
+
+        private void OnBrowseEntriesButtonClicked()
+        {
+            this._spritePackEntryListViewController.OnBrowseEntriesButtonClicked();
+        }
+
+        private void OnClearEntriesButtonClicked()
+        {
+            this._spritePackEntryListViewController.OnClearEntriesButtonClicked();
         }
 
         private void OnPreviousPageButtonClicked()
