@@ -1,10 +1,10 @@
-# Runtime SpriteSheet Generator
+# Runtime SpriteSheet Packer
 
 Pack readable `Texture2D` assets into sprite sheets at runtime and fetch Unity `Sprite` objects by name. No Editor atlas bake.
 
 This repository is a Unity development project. The installable UPM package is [`com.kknngggg.runtimespritesheetgenerator`](Packages/com.kknngggg.runtimespritesheetgenerator).
 
-Public API lives in `kknngggg.Unity.Sprites`. Entry point is `SpriteSheet.Pack`.
+Public API lives in `kknngggg.Unity.Sprites`. Entry point is `SpriteSheet.Pack`, which returns a `PackingResult`.
 
 ## Requirements
 
@@ -18,7 +18,7 @@ Public API lives in `kknngggg.Unity.Sprites`. Entry point is `SpriteSheet.Pack`.
 Window > Package Manager > + > Add package from git URL:
 
 ```
-https://github.com/kknngggg/SpriteSheetPacker.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
+https://github.com/kknngggg/UnityRuntimeSpriteSheetPacker.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
 ```
 
 ### Local
@@ -31,8 +31,10 @@ See [Install packages](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-
 
 ## Features
 
-- `SpriteSheet.Pack(IEnumerable<SpritePackEntry>, PackingSettings)` — name, pixels per unit, pivot, and mesh type come from each entry
+- `SpriteSheet.Pack(IEnumerable<SpritePackEntry>, PackingSettings, string texturePageName = null)` — returns `PackingResult` (`SpriteSheet` or `PackingError`). Does not throw on pack failure
+- Name, pixels per unit, pivot, and mesh type come from each `SpritePackEntry`
 - Multi-page sheets when content exceeds `PackingSettings.MaxSize`
+- `ToBytes()` / `Load(byte[])` — round-trip a packed sheet as `.spritesheet` binary blocks
 - `GetSprite(name)`, `TryGetSlice(name)`, `GetPage(index)`, `IDisposable`
 - Settings: `Padding`, `MaxSize` (default 2048), `ForcePowerOfTwo` (default true), `EffectiveMaxSize`
 
@@ -66,7 +68,14 @@ public class RuntimeSheetExample : MonoBehaviour
             entries[i] = new SpritePackEntry(textures[i], textures[i].name);
         }
 
-        _sheet = SpriteSheet.Pack(entries, settings);
+        PackingResult result = SpriteSheet.Pack(entries, settings);
+        if (result.IsSuccess == false)
+        {
+            Debug.LogError(result.Error.Message);
+            return;
+        }
+
+        _sheet = result.SpriteSheet;
         target.sprite = _sheet.GetSprite(textures[0].name);
     }
 
@@ -90,16 +99,21 @@ SpritePackEntry[] entries =
     new SpritePackEntry(walk, "walk_0", 50f, new Vector2(0.5f, 0.5f), SpriteMeshType.Tight),
 };
 
-SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Default);
-Sprite sprite = sheet.GetSprite("walk_0");
+PackingResult result = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Default);
+if (result.IsSuccess)
+{
+    Sprite sprite = result.SpriteSheet.GetSprite("walk_0");
+}
 ```
+
+Fail codes live in `kknngggg.Unity.Sprites.Errors.PackingErrorCodes`: `NULL_ENTRIES`, `EMPTY_ENTRIES`, `NULL_TEXTURE`, `EMPTY_NAME`, `DUPLICATE_NAME`, `TEXTURE_NOT_READABLE`, `INVALID_PIXELS_PER_UNIT`, `TEXTURE_EXCEEDS_MAX_SIZE`, `INVALID_PADDING`, `INVALID_MAX_SIZE`, `PACK_FAILED`.
 
 If your scripts use a custom assembly definition, add a reference to `kknngggg.RuntimeSpriteSheetPacker`.
 
 ## Repository layout
 
 - `Packages/com.kknngggg.runtimespritesheetgenerator` — UPM package (runtime API, tests, docs)
-- `Assets/Demos/SpriteSheets` — UI Toolkit demo: pick textures, pack, preview atlas pages
+- `Assets/Demos/SpriteSheets` — UI Toolkit demo: pick textures, pack, preview atlas pages, save/load `.spritesheet`
 - `Assets/Demos/RectanglePacking` — rectangle packer visualization
 
 Scenes: `Assets/Demos/SpriteSheets/Scenes/SpriteSheetsDemo.unity`, `Assets/Demos/RectanglePacking/Scenes/RectanglePacking.unity`.

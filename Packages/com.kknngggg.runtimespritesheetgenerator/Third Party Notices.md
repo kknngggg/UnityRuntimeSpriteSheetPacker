@@ -31,7 +31,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Component Name: Unity Runtime SpriteSheets Generator (original AssetPacker / RectanglePacking port)
 
 License Type: MIT
-
+``
 Copyright (c) 2020 Da Viking Code
 
 https://github.com/DaVikingCode/UnityRuntimeSpriteSheetsGenerator

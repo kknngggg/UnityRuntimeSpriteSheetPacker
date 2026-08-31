@@ -1,24 +1,32 @@
-# About Runtime SpriteSheet Generator
+# About Runtime SpriteSheet Packer
 
-Use the Runtime SpriteSheet Generator package to pack readable `Texture2D` assets into atlas pages at runtime and create Unity `Sprite` objects from those pages. Use it when sprites are unknown until play mode: user content, downloaded textures, or player builds where Editor atlas baking is not available.
+Use the Runtime SpriteSheet Packer package to pack readable `Texture2D` assets into atlas pages at runtime and create Unity `Sprite` objects from those pages. Use it when sprites are unknown until play mode: user content, downloaded textures, or player builds where Editor atlas baking is not available.
 
 The public API is `kknngggg.Unity.Sprites.SpriteSheet`. It is shaped like Unity `SpriteAtlas`: build a `SpritePackEntry` list, pack once, then `GetSprite` by name. Each entry carries sprite name, pixels per unit, pivot, and mesh type into `SliceInfo`. Packing may span multiple pages when content exceeds `PackingSettings.MaxSize`.
 
-# Installing Runtime SpriteSheet Generator
+`Pack` returns a `PackingResult`. On success, `IsSuccess` is true and `SpriteSheet` is the packed atlas. On failure, `Error.Code` is a `PackingErrorCodes` value and `SpriteSheet` is null. Pack does not throw.
+
+# Installing Runtime SpriteSheet Packer
 
 To install this package, follow the instructions in the [Unity Package Manager](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-install.html) documentation.
 
 Minimum Unity version: **2021.3** LTS.
 
+Git URL:
+
+```
+https://github.com/kknngggg/UnityRuntimeSpriteSheetPacker.git?path=Packages/com.kknngggg.runtimespritesheetgenerator
+```
+
 No extra Editor menus or resources are required. Add a reference to assembly `kknngggg.RuntimeSpriteSheetPacker` if your scripts use a custom assembly definition.
 
-# Using Runtime SpriteSheet Generator
+# Using Runtime SpriteSheet Packer
 
 ## Pack textures
 
 1. Ensure every source `Texture2D` has **Read/Write Enabled** (import settings, or a runtime-created readable texture).
 2. Build a `SpritePackEntry` list. Names must be unique. Empty name falls back to `texture.name`.
-3. Call `SpriteSheet.Pack(entries, settings)`.
+3. Call `SpriteSheet.Pack(entries, settings)` and check `PackingResult.IsSuccess`.
 4. Use `GetSprite(name)` on `SpriteRenderer`, `Image`, or animation code.
 5. Call `Dispose()` when the sheet is no longer needed.
 
@@ -32,7 +40,14 @@ SpritePackEntry[] entries =
     new SpritePackEntry(textureB, "ui_icon_ok"),
 };
 
-SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Default);
+PackingResult result = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Default);
+if (result.IsSuccess == false)
+{
+    Debug.LogError(result.Error.Message);
+    return;
+}
+
+SpriteSheet sheet = result.SpriteSheet;
 Sprite sprite = sheet.GetSprite("hero");
 sheet.Dispose();
 ```
@@ -46,7 +61,7 @@ SpritePackEntry[] entries =
     new SpritePackEntry(textureB, "fx", 50f, new Vector2(0.5f, 0.5f), SpriteMeshType.Tight),
 };
 
-SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Default);
+PackingResult result = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Default);
 ```
 
 ## SpritePackEntry
@@ -66,9 +81,9 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 | Field | Default | Meaning |
 |---|---|---|
 | `Padding` | `1` | Pixels between packed rects. Must be `>= 0`. |
-| `MaxSize` | `2048` | Max page width and height in pixels. Must be `>= 1`. A source texture larger than the effective max size throws. |
+| `MaxSize` | `2048` | Max page width and height in pixels. Must be `>= 1`. A source texture larger than the effective max size fails the pack. |
 | `ForcePowerOfTwo` | `true` | Pack into the largest power-of-two size `<= MaxSize`, then round each packed page axis up to the next power of two. |
-| `EffectiveMaxSize` | derived | `MaxSize` when `ForcePowerOfTwo` is off; otherwise the largest power of two `<= MaxSize`. Source textures larger than this throw. |
+| `EffectiveMaxSize` | derived | `MaxSize` when `ForcePowerOfTwo` is off; otherwise the largest power of two `<= MaxSize`. Source textures larger than this fail the pack. |
 
 `PackingSettings.Default` returns `Padding` 1, `MaxSize` 2048, `ForcePowerOfTwo` true.
 
@@ -76,7 +91,7 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 
 | Member | Description |
 |---|---|
-| `Pack(IEnumerable<SpritePackEntry>, PackingSettings, string texturePageName = null)` | Pack entries. Empty name falls back to `texture.name`. Slice PPU, pivot, and mesh type come from the entry. Optional `texturePageName` prefixes page texture names (`{name}_{pageIndex}`); default is a GUID. |
+| `Pack(IEnumerable<SpritePackEntry>, PackingSettings, string texturePageName = null)` | Pack entries. Returns `PackingResult`. Empty name falls back to `texture.name`. Slice PPU, pivot, and mesh type come from the entry. Optional `texturePageName` prefixes page texture names (`{name}_{pageIndex}`); default is a GUID. Does not throw on pack failure. |
 | `ToBytes()` | Serialize the packed sheet to a `.spritesheet` byte array (binary blocks). Unreadable page textures are captured with a GPU readback, then stored as PNG. |
 | `Load(byte[] data)` | Rebuild pages and slices from `ToBytes()` output. Disk I/O is not in this package; write and read the bytes yourself. |
 | `PageCount` | Number of atlas `Texture2D` pages. |
@@ -87,6 +102,16 @@ SpriteSheet sheet = SpriteSheet.Pack(entries, SpriteSheet.PackingSettings.Defaul
 | `Dispose()` | Destroys cached sprites and page textures. Further use throws `ObjectDisposedException`. |
 
 `GetSprite` is lazy: the `Sprite` is created on first request and reused.
+
+## PackingResult
+
+| Member | Description |
+|---|---|
+| `IsSuccess` | `true` when `Error` is `PackingError.None`. |
+| `SpriteSheet` | Packed atlas on success; `null` on failure. |
+| `Error` | `PackingError` with `Code` and `Message`. Equals `PackingError.None` on success. |
+
+Partial atlas pages are disposed on failure. Check `IsSuccess` before using `SpriteSheet`.
 
 ## Save and load `.spritesheet` files
 
@@ -130,14 +155,23 @@ loaded.Dispose();
 
 ## Validation errors
 
-Pack throws if:
+`Pack` does not throw. Failures return `PackingResult` with `IsSuccess` false. `Error.Code` is a `PackingErrorCodes` value:
 
-- The entry list is null, empty, or contains a null texture
-- A sprite name is empty or duplicated
-- A texture is not readable
-- `PixelsPerUnit` is `<= 0`
-- A texture’s width or height exceeds the effective max size (`MaxSize`, or the largest power of two `<= MaxSize` when `ForcePowerOfTwo` is on)
-- A remaining texture cannot be placed on a page (packer placed zero rects)
+| Code | When |
+|---|---|
+| `INVALID_PADDING` | `Padding` is `< 0`. |
+| `INVALID_MAX_SIZE` | `MaxSize` is `< 1`. |
+| `NULL_ENTRIES` | Entry list is null. |
+| `EMPTY_ENTRIES` | Entry list is empty. |
+| `NULL_TEXTURE` | An entry has a null texture. |
+| `EMPTY_NAME` | Sprite name is empty after fallback to `texture.name`. |
+| `DUPLICATE_NAME` | Two entries share the same name. |
+| `TEXTURE_NOT_READABLE` | A texture does not have Read/Write Enabled. |
+| `INVALID_PIXELS_PER_UNIT` | `PixelsPerUnit` is `<= 0`. |
+| `TEXTURE_EXCEEDS_MAX_SIZE` | Texture width or height exceeds `EffectiveMaxSize`. |
+| `PACK_FAILED` | A remaining texture cannot be placed on a page (packer placed zero rects). |
+
+`GetPage` still throws `ObjectDisposedException` / `ArgumentOutOfRangeException`. `Load` still throws on bad bytes.
 
 ## Requirements
 
@@ -149,7 +183,7 @@ No third-party Unity packages are required.
 
 ## Known limitations
 
-Runtime SpriteSheet Generator version 0.1.0 includes the following known limitations:
+Runtime SpriteSheet Packer version 0.1.0 includes the following known limitations:
 
 * No Editor window or Sprite Atlas importer integration. Packing is code-only.
 * Duplicate/empty names and oversized textures fail the whole pack.
@@ -161,3 +195,4 @@ Runtime SpriteSheet Generator version 0.1.0 includes the following known limitat
 | Aug 13, 2026 | Document created. |
 | Aug 29, 2026 | Document `texturePageName` and `EffectiveMaxSize`. |
 | Aug 30, 2026 | Document `.spritesheet` `ToBytes` / `Load(byte[])`. Path I/O stays outside the package. |
+| Aug 31, 2026 | Document `PackingResult`. `Pack` no longer throws. Rename display name to Runtime SpriteSheet Packer. |
